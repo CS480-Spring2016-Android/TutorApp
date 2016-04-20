@@ -4,7 +4,10 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,12 +25,14 @@ import android.widget.Toast;
  * LoginActivity Activity to log the user in.
  * Created by MAGarcia on 4/19/2016.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends FragmentActivity
+        implements SignupFragment.OnFragmentInteractionListener {
   private EditText usernameLoginText;
   private EditText passwordLoginText;
   private ProgressBar loadBar;
   private Button loginButton;
   private View background;
+  private Bundle savedInstanceState;
 
   @Override
   public void onCreate(Bundle os) {
@@ -39,11 +44,12 @@ public class LoginActivity extends AppCompatActivity {
     loginButton = (Button)findViewById(R.id.login_button);
     background = findViewById(R.id.login_layout);
     loadBar = (ProgressBar)findViewById(R.id.load_progress);
+    savedInstanceState = os;
     // Animate the background
     animateBackground();
 
     // Activate User Interaction.
-    setupUsernameText();
+  //  setupUsernameText();
     setupPasswordText();
     setupLoginButton();
 
@@ -78,8 +84,11 @@ public class LoginActivity extends AppCompatActivity {
 
       if (isLoggedIn(usernameLoginText.getText().toString(), passwordLoginText.getText().toString())) {
         // Move on to the user's account home screen or something...
-        Toast.makeText(LoginActivity.this, "Ye boi, we did it!!", Toast.LENGTH_SHORT).show();
-        login(null);
+        //Test code for now to get to the user profile screen
+        Intent intent = new Intent(this, Profile.class);
+        finish();
+        startActivity(intent);
+        //end test code
       } else {
         // Display to the user that s/he has not logged in successfully.
         Toast.makeText(LoginActivity.this
@@ -88,12 +97,6 @@ public class LoginActivity extends AppCompatActivity {
         stopLoading();
       }
     }
-  }
-
-  protected void login(View view){
-    Intent intent = new Intent(this, Profile.class);
-    finish();
-    startActivity(intent);
   }
 
   // Start the progress circle login load.
@@ -156,6 +159,29 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   /**
+   *
+   * @param v
+   */
+  public void onForgotPassword(View v) {
+    if (findViewById(R.id.login_layout) != null) {
+      if (savedInstanceState != null) {
+        return;
+      }
+
+      SignupFragment newFragment = new SignupFragment();
+
+      newFragment.setArguments(getIntent().getExtras());
+
+      FragmentTransaction fragTransit = getSupportFragmentManager().beginTransaction();
+      fragTransit.replace(R.id.login_layout, newFragment);
+      fragTransit.addToBackStack(null);
+
+      loginButton.setVisibility(View.GONE);
+      fragTransit.commit();
+    }
+  }
+
+  /**
    * Password Text setup.
    */
   private void setupPasswordText() {
@@ -181,5 +207,26 @@ public class LoginActivity extends AppCompatActivity {
         performLogin();
       }
     });
+  }
+
+  public void onDone(View view) {
+    getSupportFragmentManager().popBackStack();
+    loginButton.setVisibility(View.VISIBLE);
+  }
+
+  @Override
+  public void onFragmentInteraction(Uri uri) {
+
+
+  }
+
+  @Override
+  public  void onBackPressed() {
+    //super.onBackPressed();
+    if ( getSupportFragmentManager().getBackStackEntryCount() == 0 ) {
+      this.finish();
+    } else {
+      getSupportFragmentManager().popBackStack();
+    }
   }
 }

@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/signupFragment"
+                android:background="@color/colorPrimary"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.zaidi.cs480.spring.app.tutortabby.SignupFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <EditText
+        android:id="@+id/firstName"
+        android:hint="First Name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/lastName"
+        android:hint="Last Name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:singleLine="true"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:id="@+id/newUsername"
+        android:hint="@string/Username"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/newPassW"
+        android:hint="@string/passwordInput"
+        android:layout_marginTop="150dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/retypePassW"
+        android:hint="Retype password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:inputType="textPassword"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/profileImage"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="120dp"/>
+
+    <Button
+        android:id="@+id/doneButton"
+        android:text="Done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="onDone"/>
+
+</RelativeLayout>

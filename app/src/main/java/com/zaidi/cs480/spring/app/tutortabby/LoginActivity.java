@@ -3,6 +3,7 @@ package com.zaidi.cs480.spring.app.tutortabby;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -77,7 +78,14 @@ public class LoginActivity extends AppCompatActivity {
 
       if (isLoggedIn(usernameLoginText.getText().toString(), passwordLoginText.getText().toString())) {
         // Move on to the user's account home screen or something...
-        Toast.makeText(LoginActivity.this, "Ye boi, we did it!!", Toast.LENGTH_SHORT).show();
+
+        //Test code for now to get to the user profile screen
+        Intent intent = new Intent(this, Profile.class);
+        finish();
+        startActivity(intent);
+        //end test code
+
+//        Toast.makeText(LoginActivity.this, "Ye boi, we did it!!", Toast.LENGTH_SHORT).show();
       } else {
         // Display to the user that s/he has not logged in successfully.
         Toast.makeText(LoginActivity.this

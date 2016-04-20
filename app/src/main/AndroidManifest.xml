@@ -12,32 +12,35 @@
         <!-- Main Activity and whatnot -->
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <!-- Splash Screen, also our Startup Entry -->
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".SplashActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <action android:name="@string/app_name"/>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="@string/app_name" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- Profile Activity!! -->
-        <activity android:name=".Profile"></activity>
+
 
         <!-- LoginActivity Screen and stuff, Can only view Portrait -->
-        <activity android:name=".LoginActivity"
-            android:theme="@style/LoginScreen"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginScreen">
             <intent-filter>
-                a<action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity android:name=".Profile"></activity>
     </application>
 
 </manifest>

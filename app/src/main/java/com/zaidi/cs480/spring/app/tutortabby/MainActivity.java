@@ -23,10 +23,4 @@ public class MainActivity extends AppCompatActivity {
     // Destroy the MainActivity StartUp.
     finish();
   }
-
-  protected void login(View view){
-    Intent intent = new Intent(this, Profile.class);
-    finish();
-    startActivity(intent);
-  }
 }

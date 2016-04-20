@@ -2,6 +2,7 @@ package com.zaidi.cs480.spring.app.tutortabby;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
   private EditText usernameLoginText;
   private EditText passwordLoginText;
+  private ProgressBar loadBar;
   private Button loginButton;
   private View background;
 
@@ -33,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     passwordLoginText = (EditText)findViewById(R.id.pwUserInput);
     loginButton = (Button)findViewById(R.id.login_button);
     background = findViewById(R.id.login_layout);
-
+    loadBar = (ProgressBar)findViewById(R.id.load_progress);
     // Animate the background
     animateBackground();
 
@@ -69,8 +73,41 @@ public class LoginActivity extends AppCompatActivity {
     } else {
       // Do the check to see if username and password match...
       // This is justa place holder lulz...
-      Toast.makeText(LoginActivity.this, "Ye boi, we did it!!", Toast.LENGTH_SHORT).show();
+      startLoading();
+
+      if (isLoggedIn(usernameLoginText.getText().toString(), passwordLoginText.getText().toString())) {
+        // Move on to the user's account home screen or something...
+        Toast.makeText(LoginActivity.this, "Ye boi, we did it!!", Toast.LENGTH_SHORT).show();
+      } else {
+        // Display to the user that s/he has not logged in successfully.
+        Toast.makeText(LoginActivity.this
+                     , "Username and Password do not match."
+                     , Toast.LENGTH_SHORT).show();
+        stopLoading();
+      }
     }
+  }
+
+  // Start the progress circle login load.
+  private void startLoading() {
+    loginButton.setVisibility(View.GONE);
+    loadBar.setVisibility(View.VISIBLE);
+  }
+
+  // Stop the progress circle login load.
+  private void stopLoading() {
+    loginButton.setVisibility(View.VISIBLE);
+    loadBar.setVisibility(View.GONE);
+  }
+
+  /**
+   * Check to see if the user had successfully login in. Data base from our Database team is needed
+   * in order to check for user info.
+   * @return True if the user has logged in. False otherwise.
+   */
+  private boolean isLoggedIn(String username, String password) {
+    // for now...
+    return true;
   }
 
 
@@ -101,6 +138,9 @@ public class LoginActivity extends AppCompatActivity {
       public boolean onKey(View v, int keyCode, KeyEvent event) {
         if ((event != null) && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
           passwordLoginText.requestFocus();
+          InputMethodManager imm = (InputMethodManager)getSystemService(Context
+                  .INPUT_METHOD_SERVICE);
+          imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         }
         return true;
       }

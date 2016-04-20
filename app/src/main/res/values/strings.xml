@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TutorTabby</string>
+    <string name="Username">Username</string>
+    <string name="passwordInput">Password</string>
 </resources>

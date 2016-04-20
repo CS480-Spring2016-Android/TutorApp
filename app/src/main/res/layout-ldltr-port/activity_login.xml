@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/login_layout"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorLoginBackground">
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:id="@+id/userNameInput"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/Username"
+        android:textIsSelectable="false"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/pwUserInput"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/userNameInput"
+        android:hint="@string/passwordInput"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:inputType="textPassword"/>
+
+    <ImageView
+        android:id="@+id/LoginScreenView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:src="@mipmap/ic_launcher"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/login_button"
+        android:layout_below="@id/pwUserInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="128dp"
+        android:onClick="login"/>
+</RelativeLayout>

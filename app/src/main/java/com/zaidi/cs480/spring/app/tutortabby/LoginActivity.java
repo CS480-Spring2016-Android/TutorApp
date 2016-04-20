@@ -141,8 +141,11 @@ public class LoginActivity extends FragmentActivity
   }
 
   /**
+   * This function should not be used unless really needed.
+   * Small bug will cause login to focus password text.
    * Username text setup.
    */
+  @Deprecated
   private void setupUsernameText() {
     usernameLoginText.setOnKeyListener(new View.OnKeyListener() {
       @Override
@@ -235,6 +238,10 @@ public class LoginActivity extends FragmentActivity
       this.finish();
     } else {
       getSupportFragmentManager().popBackStack();
+      // check if the login button has not disappeared!
+      if (loginButton.getVisibility() != View.VISIBLE) {
+        loginButton.setVisibility(View.VISIBLE);
+      }
     }
   }
 }

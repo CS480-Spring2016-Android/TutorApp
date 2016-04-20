@@ -162,7 +162,7 @@ public class LoginActivity extends FragmentActivity
    *
    * @param v
    */
-  public void onForgotPassword(View v) {
+  public void onRunSignup(View v) {
     if (findViewById(R.id.login_layout) != null) {
       if (savedInstanceState != null) {
         return;
@@ -179,6 +179,14 @@ public class LoginActivity extends FragmentActivity
       loginButton.setVisibility(View.GONE);
       fragTransit.commit();
     }
+  }
+
+  /**
+   *
+   * @param v
+   */
+  public void onForgotPassword(View v) {
+
   }
 
   /**

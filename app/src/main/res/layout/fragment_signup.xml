@@ -14,6 +14,7 @@
     <EditText
         android:id="@+id/firstName"
         android:hint="First Name"
+        android:layout_centerHorizontal="true"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:singleLine="true"/>
@@ -22,6 +23,7 @@
         android:id="@+id/lastName"
         android:hint="Last Name"
         android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:singleLine="true"/>
@@ -29,6 +31,7 @@
     <EditText
         android:layout_width="300dp"
         android:id="@+id/newUsername"
+        android:layout_centerHorizontal="true"
         android:hint="@string/Username"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -40,6 +43,7 @@
         android:layout_marginTop="150dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:inputType="textPassword"/>
 
     <EditText
@@ -47,8 +51,10 @@
         android:hint="Retype password"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:imeOptions="actionDone"/>
 
     <ImageView
         android:layout_width="150dp"

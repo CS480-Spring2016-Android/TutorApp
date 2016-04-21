@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 /**
  * LoginActivity Activity to log the user in.
@@ -161,6 +164,28 @@ public class LoginActivity extends FragmentActivity
     });
   }
 
+  private void disableActivity() {
+    loginButton.setVisibility(View.GONE);
+    usernameLoginText.setEnabled(false);
+    passwordLoginText.setEnabled(false);
+
+    TextView signupText = (TextView) findViewById(R.id.signupText);
+    signupText.setEnabled(false);
+    TextView forgotPassword = (TextView)findViewById(R.id.forgotPasswordText);
+    forgotPassword.setEnabled(false);
+  }
+
+  private void enableActivity() {
+    loginButton.setVisibility(View.VISIBLE);
+    usernameLoginText.setEnabled(true);
+    passwordLoginText.setEnabled(true);
+
+    TextView signupText = (TextView) findViewById(R.id.signupText);
+    signupText.setEnabled(true);
+    TextView forgotPassword = (TextView)findViewById(R.id.forgotPasswordText);
+    forgotPassword.setEnabled(true);
+  }
+
   /**
    *
    * @param v
@@ -181,7 +206,8 @@ public class LoginActivity extends FragmentActivity
       fragTransit.replace(R.id.login_layout, newFragment);
       fragTransit.addToBackStack(null);
 
-      loginButton.setVisibility(View.GONE);
+      disableActivity();
+
       fragTransit.commit();
     }
   }
@@ -224,7 +250,7 @@ public class LoginActivity extends FragmentActivity
 
   public void onDone(View view) {
     getSupportFragmentManager().popBackStack();
-    loginButton.setVisibility(View.VISIBLE);
+    enableActivity();
   }
 
   @Override
@@ -240,9 +266,7 @@ public class LoginActivity extends FragmentActivity
     } else {
       getSupportFragmentManager().popBackStack();
       // check if the login button has not disappeared!
-      if (loginButton.getVisibility() != View.VISIBLE) {
-        loginButton.setVisibility(View.VISIBLE);
-      }
+      enableActivity();
     }
   }
 }

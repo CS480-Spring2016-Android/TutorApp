@@ -16,8 +16,8 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-//        background = findViewById(R.id.profile_layout);
-//        animateBackground();
+        //background = findViewById(R.id.profile_layout);
+        //animateBackground();
     }
 
     private void animateBackground() {

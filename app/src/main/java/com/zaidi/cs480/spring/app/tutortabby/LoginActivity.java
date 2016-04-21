@@ -176,6 +176,8 @@ public class LoginActivity extends FragmentActivity
       newFragment.setArguments(getIntent().getExtras());
 
       FragmentTransaction fragTransit = getSupportFragmentManager().beginTransaction();
+      fragTransit.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                                      android.R.anim.slide_in_left, android.R.anim.slide_out_right);
       fragTransit.replace(R.id.login_layout, newFragment);
       fragTransit.addToBackStack(null);
 
@@ -227,7 +229,6 @@ public class LoginActivity extends FragmentActivity
 
   @Override
   public void onFragmentInteraction(Uri uri) {
-
 
   }
 

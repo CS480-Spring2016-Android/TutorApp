@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 
-import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,8 +19,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 /**
  * LoginActivity Activity to log the user in.
@@ -48,6 +44,13 @@ public class LoginActivity extends FragmentActivity
     background = findViewById(R.id.login_layout);
     loadBar = (ProgressBar)findViewById(R.id.load_progress);
     savedInstanceState = os;
+
+    boolean successful = getIntent().getBooleanExtra("programLoaded", false);
+    if (successful) {
+      Toast.makeText(this, "Yep", Toast.LENGTH_SHORT).show();
+    } else {
+      Toast.makeText(this, "Nope", Toast.LENGTH_SHORT).show();
+    }
     // Animate the background
     animateBackground();
 
@@ -129,7 +132,7 @@ public class LoginActivity extends FragmentActivity
    * Background animation.
    */
   private void animateBackground() {
-    int colorFrom = ContextCompat.getColor(this, R.color.colorLoginBackground);
+    int colorFrom = ContextCompat.getColor(this, R.color.colorLoginBackgroundDark);
     int colorTo = ContextCompat.getColor(this, R.color.colorPrimary);
 
     ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
@@ -262,7 +265,7 @@ public class LoginActivity extends FragmentActivity
   public  void onBackPressed() {
     //super.onBackPressed();
     if ( getSupportFragmentManager().getBackStackEntryCount() == 0 ) {
-      this.finish();
+      moveTaskToBack(true);
     } else {
       getSupportFragmentManager().popBackStack();
       // check if the login button has not disappeared!

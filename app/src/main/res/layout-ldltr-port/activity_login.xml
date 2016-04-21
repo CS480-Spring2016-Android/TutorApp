@@ -5,7 +5,16 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/colorLoginBackground">
+              android:background="@color/colorLoginBackgroundDark">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tutor Tabby"
+        android:layout_centerHorizontal="true"
+        android:typeface="serif"
+        android:layout_marginTop="200dp"
+        android:textSize="30sp"/>
 
     <EditText
         android:layout_width="300dp"

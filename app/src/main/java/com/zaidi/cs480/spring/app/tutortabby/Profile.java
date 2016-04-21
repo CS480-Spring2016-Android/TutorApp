@@ -21,7 +21,7 @@ public class Profile extends AppCompatActivity {
     }
 
     private void animateBackground() {
-        int colorFrom = ContextCompat.getColor(this, R.color.colorLoginBackground);
+        int colorFrom = ContextCompat.getColor(this, R.color.colorLoginBackgroundDark);
         int colorTo = ContextCompat.getColor(this, R.color.colorPrimary);
 
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);

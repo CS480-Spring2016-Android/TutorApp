@@ -1,8 +1,10 @@
-package com.zaidi.cs480.spring.app.tutortabby;
+package com.zaidi.cs480.spring.app.tutortabby.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.zaidi.cs480.spring.app.tutortabby.activities.MainActivity;
 
 /**
  * Starts up the Tutor app with a splash screen.

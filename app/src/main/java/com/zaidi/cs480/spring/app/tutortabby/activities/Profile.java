@@ -1,4 +1,4 @@
-package com.zaidi.cs480.spring.app.tutortabby;
+package com.zaidi.cs480.spring.app.tutortabby.activities;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.zaidi.cs480.spring.app.tutortabby.R;
 
 public class Profile extends AppCompatActivity {
 

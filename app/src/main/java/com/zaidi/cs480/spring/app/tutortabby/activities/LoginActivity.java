@@ -1,4 +1,4 @@
-package com.zaidi.cs480.spring.app.tutortabby;
+package com.zaidi.cs480.spring.app.tutortabby.activities;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -19,6 +19,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.zaidi.cs480.spring.app.tutortabby.R;
+import com.zaidi.cs480.spring.app.tutortabby.fragments.SignupFragment;
 
 /**
  * LoginActivity Activity to log the user in.

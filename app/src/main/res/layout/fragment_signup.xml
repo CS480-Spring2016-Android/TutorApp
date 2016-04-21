@@ -5,7 +5,7 @@
                 android:background="@color/colorPrimary"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.zaidi.cs480.spring.app.tutortabby.SignupFragment">
+             tools:context=".fragments.SignupFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView

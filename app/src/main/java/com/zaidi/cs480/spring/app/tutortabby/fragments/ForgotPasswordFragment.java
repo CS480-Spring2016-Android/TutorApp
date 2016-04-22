@@ -10,9 +10,8 @@ import android.view.ViewGroup;
 
 import com.zaidi.cs480.spring.app.tutortabby.R;
 
-import java.util.zip.Inflater;
-
 /**
+ * Cats and dogs.
  * Created by MAGarcia on 4/22/2016.
  */
 public class ForgotPasswordFragment extends Fragment {
@@ -32,7 +31,7 @@ public class ForgotPasswordFragment extends Fragment {
 
   public void onButtonPressed(Uri uri) {
     if (mListener != null) {
-      mListener.onFragmentInteraction(uri);
+      mListener.onForgotPasswordFragmentInteraction(uri);
     }
   }
 
@@ -56,6 +55,6 @@ public class ForgotPasswordFragment extends Fragment {
   // Interaction with this fragment.
   public interface OnForgotPasswordFragmentListener {
 
-    void onFragmentInteraction(Uri uri);
+    void onForgotPasswordFragmentInteraction(Uri uri);
   }
 }

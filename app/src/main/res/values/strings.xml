@@ -4,6 +4,7 @@
     <string name="passwordInput">Password</string>
     <string name="forgotPassword">Forgot your Password?</string>
     <string name="signupText">Not signed up? Press here!</string>
+
     <style name="loginButton">Login</style>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zaidi.cs480.spring.app.tutortabby.R;
+import com.zaidi.cs480.spring.app.tutortabby.fragments.ForgotPasswordFragment;
 import com.zaidi.cs480.spring.app.tutortabby.fragments.SignupFragment;
 
 /**
@@ -28,7 +29,8 @@ import com.zaidi.cs480.spring.app.tutortabby.fragments.SignupFragment;
  * Created by MAGarcia on 4/19/2016.
  */
 public class LoginActivity extends FragmentActivity
-        implements SignupFragment.OnFragmentInteractionListener {
+        implements SignupFragment.OnFragmentInteractionListener
+                 , ForgotPasswordFragment.OnForgotPasswordFragmentListener {
   private EditText usernameLoginText;
   private EditText passwordLoginText;
   private ProgressBar loadBar;
@@ -223,7 +225,25 @@ public class LoginActivity extends FragmentActivity
    * @param v
    */
   public void onForgotPassword(View v) {
+    if (findViewById(R.id.login_layout) != null) {
+      if (savedInstanceState != null) {
+        return;
+      }
 
+      ForgotPasswordFragment newFragment = new ForgotPasswordFragment();
+
+      newFragment.setArguments(getIntent().getExtras());
+
+      FragmentTransaction fragTransit = getSupportFragmentManager().beginTransaction();
+      fragTransit.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+              android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+      fragTransit.replace(R.id.login_layout, newFragment);
+      fragTransit.addToBackStack(null);
+
+      disableActivity();
+
+      fragTransit.commit();
+    }
   }
 
   /**
@@ -259,8 +279,21 @@ public class LoginActivity extends FragmentActivity
     enableActivity();
   }
 
+  public void onSend(View View) {
+    getSupportFragmentManager().popBackStack();
+    enableActivity();
+
+    Toast.makeText(this, "A message showing how to reset your password has been send to your email."
+            , Toast.LENGTH_LONG).show();
+  }
+
   @Override
-  public void onFragmentInteraction(Uri uri) {
+  public void onSignupFragmentInteraction(Uri uri) {
+
+  }
+
+  @Override
+  public void onForgotPasswordFragmentInteraction(Uri uri) {
 
   }
 

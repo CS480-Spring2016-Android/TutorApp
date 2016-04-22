@@ -18,13 +18,15 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // Added feature to change animation transition to changeable colors instead.
+        // You can now specify which colors you want to transition to for your background.
         //background = findViewById(R.id.profile_layout);
-        //animateBackground();
+        //animateBackground(R.color.colorPrimary, R.color.colorLoginBackgroundDark);
     }
 
-    private void animateBackground() {
-        int colorFrom = ContextCompat.getColor(this, R.color.colorLoginBackgroundDark);
-        int colorTo = ContextCompat.getColor(this, R.color.colorPrimary);
+    private void animateBackground(int idFrom, int idTo) {
+        int colorFrom = ContextCompat.getColor(this, idFrom);
+        int colorTo = ContextCompat.getColor(this, idTo);
 
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
         colorAnimation.setDuration(5000);

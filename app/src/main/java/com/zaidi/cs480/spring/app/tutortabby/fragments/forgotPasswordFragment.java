@@ -15,7 +15,7 @@ import java.util.zip.Inflater;
 /**
  * Created by MAGarcia on 4/22/2016.
  */
-public class forgotPasswordFragment extends Fragment {
+public class ForgotPasswordFragment extends Fragment {
 
   private OnForgotPasswordFragmentListener mListener;
 

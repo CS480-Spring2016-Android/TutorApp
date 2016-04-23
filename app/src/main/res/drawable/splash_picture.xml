@@ -4,6 +4,8 @@
         android:drawable="@color/colorLoginBackgroundDark"/>
 
         <item>
-            <bitmap android:gravity="center" android:src="@mipmap/ic_launcher"/>
+            <bitmap android:gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:antialias="true"/>
         </item>
 </layer-list>

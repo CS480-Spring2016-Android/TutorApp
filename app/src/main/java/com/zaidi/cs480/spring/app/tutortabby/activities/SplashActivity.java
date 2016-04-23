@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.zaidi.cs480.spring.app.tutortabby.R;
 import com.zaidi.cs480.spring.app.tutortabby.activities.MainActivity;
 
 /**
@@ -14,7 +15,6 @@ public class SplashActivity extends AppCompatActivity {
   @Override
   public void onCreate(Bundle os) {
     super.onCreate(os);
-
     Intent mainActivity = new Intent(this, MainActivity.class);
     startActivity(mainActivity);
     finish();

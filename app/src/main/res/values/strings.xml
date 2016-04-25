@@ -3,10 +3,19 @@
     <string name="Username">Username</string>
     <string name="passwordInput">Password</string>
     <string name="forgotPassword">Forgot your Password?</string>
-    <string name="signupText">Not signed up? Press here!</string>
+    <string name="signupText">Not signed up? Create a new account today!</string>
 
-    <style name="loginButton">Login</style>
+    <!--  -->
+    <string name="loginButton">Login</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Item drawer strings -->
+    <string-array name="nav_item_drawer_strings">
+        <item>Home</item>
+        <item>Settings</item>
+        <item>Search</item>
+        <item>Profile</item>
+    </string-array>
 </resources>

@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#af631c</color>
     <color name="colorAccent">#ff404d</color>
     <color name="colorLoginBackgroundDark">#59300a</color>
+
+    <!-- Drawer navigation colors -->
+    <color name="colorDrawerPressed">#411211</color>
+    <color name="colorTextCounterBg">#480030</color>
 </resources>

@@ -38,4 +38,9 @@ public class Profile extends AppCompatActivity {
         });
         colorAnimation.start();
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }

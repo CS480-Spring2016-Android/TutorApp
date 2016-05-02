@@ -16,7 +16,7 @@ public class SplashActivity extends FragmentActivity {
   @Override
   public void onCreate(Bundle os) {
     super.onCreate(os);
-    Intent mainActivity = new Intent(this, SampleMenuActivity.class);
+    Intent mainActivity = new Intent(this, MainActivity.class);
     startActivity(mainActivity);
     finish();
   }

@@ -2,9 +2,9 @@ package com.zaidi.cs480.spring.app.tutortabby.activities;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,7 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-public class Profile extends AppCompatActivity {
+public class Profile extends Activity {
 
     TextView t = null;
 

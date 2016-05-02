@@ -18,21 +18,33 @@
                         android:id="@+id/scrollingStuff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/splash_picture">
+            android:background="@color/colorLoginBackgroundDark">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 android:id="@+id/welcomeSignupImage"
                 android:src="@drawable/splash_picture"
                 android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/signupTextig"
+                android:layout_centerHorizontal="true"
+                android:textSize="20sp"
+                android:layout_marginTop="200dp"
+                android:text="Sign up Today! It's Easy!"/>
+
             <EditText
                 android:id="@+id/firstName"
                 android:hint="First Name"
                 android:layout_centerHorizontal="true"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:singleLine="true"/>
+                android:layout_marginTop="250dp"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <EditText
                 android:id="@+id/lastName"
@@ -40,17 +52,19 @@
                 android:layout_width="300dp"
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:singleLine="true"/>
+                android:layout_marginTop="300dp"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <EditText
                 android:id="@+id/emailText"
                 android:inputType="textEmailAddress"
                 android:layout_width="300dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="350dp"
                 android:hint="Email"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:imeOptions="actionNext"/>
 
             <EditText
                 android:layout_width="300dp"
@@ -58,17 +72,19 @@
                 android:layout_centerHorizontal="true"
                 android:hint="@string/Username"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
-                android:singleLine="true"/>
+                android:layout_marginTop="400dp"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <EditText
                 android:id="@+id/newPassW"
                 android:hint="@string/passwordInput"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="450dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:imeOptions="actionNext"/>
 
             <EditText
                 android:id="@+id/retypePassW"
@@ -76,7 +92,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="250dp"
+                android:layout_marginTop="500dp"
                 android:inputType="textPassword"
                 android:imeOptions="actionDone"/>
 
@@ -94,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="30dp"
+                android:layout_marginTop="700dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_alignParentRight="true"

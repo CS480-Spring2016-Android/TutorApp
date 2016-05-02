@@ -8,5 +8,4 @@
     <!-- Drawer navigation colors -->
     <color name="colorDrawerPressed">#411211</color>
     <color name="colorTextCounterBg">#480030</color>
-    <color name="colorListSelectorBackground">#594e4e</color>
 </resources>

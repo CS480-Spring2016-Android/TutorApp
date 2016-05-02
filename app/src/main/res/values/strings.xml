@@ -18,11 +18,4 @@
         <item>Search</item>
         <item>Profile</item>
     </string-array>
-     <!-- Array values that contain icon drawings for our slide menu -->
-    <array name="nav_item_drawer_icons">
-        <item>@drawable/splash_picture</item>
-        <item>@drawable/splash_picture</item>
-        <item>@drawable/splash_picture</item>
-        <item>@drawable/splash_picture</item>
-    </array>
 </resources>

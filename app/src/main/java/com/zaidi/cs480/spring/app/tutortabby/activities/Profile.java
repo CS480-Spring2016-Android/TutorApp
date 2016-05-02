@@ -1,13 +1,24 @@
 package com.zaidi.cs480.spring.app.tutortabby.activities;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
+import android.os.AsyncTask;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.zaidi.cs480.spring.app.tutortabby.R;
+import com.zaidi.cs480.spring.app.tutortabby.adapters.NavItemAdapter;
+import com.zaidi.cs480.spring.app.tutortabby.items.NavItem;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,115 +26,196 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Iterator;
 
-import com.zaidi.cs480.spring.app.tutortabby.R;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 
 public class Profile extends Activity {
+  /*
+    TODO(Romero): This layout will need to be used for the home screen.
+                  Once the home screen is complete, this slide menu will be
+                  implemented onto it for proper navigation.
+   */
+  private DrawerLayout mDrawerLayout;
+  private ListView mDrawerList;
+  private ActionBarDrawerToggle mDrawerToggle;
+  private CharSequence mDrawerTitle;
+  private CharSequence mTitle;
 
-    TextView t = null;
+  private String[] navMenuTitles;
+  private TypedArray navMenuIcons;
 
-    private View background;
+  private ArrayList<NavItem> navDrawerItems;
+  private NavItemAdapter adapter;
+
+  private TextView t = null;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_sample_menu);
+
+    t = (TextView)findViewById(R.id.data);
+
+    t.setText("Downloading");
+
+    try {
+      URL url = new URL("http://romerosoftware.me:8080/tutor/user");
+      new DownloadWebpageTask().execute(url);
+    }
+    catch (Exception e){
+      t.setText(e.toString());
+    }
+
+    mTitle = mDrawerTitle = getTitle();
+
+    navMenuTitles = getResources().getStringArray(R.array.nav_item_drawer_strings);
+    navMenuIcons = getResources().obtainTypedArray(R.array.nav_item_drawer_icons);
+
+    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+
+    navDrawerItems = new ArrayList<>();
+
+    navDrawerItems.add(new NavItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+    navDrawerItems.add(new NavItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
+    navDrawerItems.add(new NavItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+
+    navMenuIcons.recycle();
+    adapter = new NavItemAdapter(getApplicationContext(), navDrawerItems);
+    mDrawerList.setAdapter(adapter);
+    getActionBar().setDisplayHomeAsUpEnabled(true);
+    getActionBar().setHomeButtonEnabled(true);
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+            null,
+            R.string.app_name,
+            R.string.app_name) {
+      public void onDrawerClosed(View view) {
+        getActionBar().setTitle(mTitle);
+        invalidateOptionsMenu();
+      }
+
+      public void onDrawerOpened(View drawerView) {
+        getActionBar().setTitle(mDrawerTitle);
+        invalidateOptionsMenu();
+      }
+    };
+    mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+    if (savedInstanceState == null) {
+    }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // toggle nav drawer on selecting action bar app icon/title
+    if (mDrawerToggle.onOptionsItemSelected(item)) {
+      return true;
+    }
+    // Handle action bar actions click
+    switch (item.getItemId()) {
+      case R.id.action_settings:
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+  /***
+   * Called when invalidateOptionsMenu() is triggered
+   */
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    // if nav drawer is opened, hide the action items
+    boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+    menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
+  public void setTitle(CharSequence title) {
+    mTitle = title;
+    getActionBar().setTitle(mTitle);
+  }
+
+  /**
+   * When using the ActionBarDrawerToggle, you must call it during
+   * onPostCreate() and onConfigurationChanged()...
+   */
+
+  @Override
+  protected void onPostCreate(Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    // Sync the toggle state after onRestoreInstanceState has occurred.
+    mDrawerToggle.syncState();
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    // Pass any configuration change to the drawer toggls
+    mDrawerToggle.onConfigurationChanged(newConfig);
+  }
+
+  //Async task to download from database
+
+  private class DownloadWebpageTask extends AsyncTask<URL, Void, JSONObject> {
+    String result = "";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+    protected JSONObject doInBackground(URL... urls) {
+      InputStream is;
+      // params comes from the execute() call: params[0] is the url.
+      try {
 
-        t = (TextView)findViewById(R.id.detailView);
-        t.setText("Downloading");
-        try {
-            URL url = new URL("http://romerosoftware.me:8080/movies/movie?%22title%22={%27title%27:{%27$regex%27:%27(?i)^The.*%27}}&keys={%27title%27:1}&sort_by=date");
-            new DownloadWebpageTask().execute(url);
-        }
-        catch (Exception e){
-            t.setText(e.toString());
-        }
-
-        // Added feature to change animation transition to changeable colors instead.
-        // You can now specify which colors you want to transition to for your background.
-        //background = findViewById(R.id.profile_layout);
-        //animateBackground(R.color.colorPrimary, R.color.colorLoginBackgroundDark);
-    }
-
-    private void animateBackground(int idFrom, int idTo) {
-        int colorFrom = ContextCompat.getColor(this, idFrom);
-        int colorTo = ContextCompat.getColor(this, idTo);
-
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.setDuration(5000);
-        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                background.setBackgroundColor((int) animation.getAnimatedValue());
-            }
-        });
-        colorAnimation.start();
-    }
-
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
-
-    private class DownloadWebpageTask extends AsyncTask<URL, Void, JSONObject> {
-        String result = "";
-
-        @Override
-        protected JSONObject doInBackground(URL... urls) {
-            InputStream is;
-            // params comes from the execute() call: params[0] is the url.
-            try {
-
-                HttpURLConnection conn = (HttpURLConnection) urls[0].openConnection();
-                conn.setRequestMethod("GET");
-                conn.setDoInput(true);
-                // Starts the query
-                conn.connect();
-                is = conn.getInputStream();
+        HttpURLConnection conn = (HttpURLConnection) urls[0].openConnection();
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        // Starts the query
+        conn.connect();
+        is = conn.getInputStream();
 
 
 
-                BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
+        BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
 
-                StringBuilder sBuilder = new StringBuilder();
+        StringBuilder sBuilder = new StringBuilder();
 
-                String line = null;
-                while ((line = bReader.readLine()) != null) {
-                    sBuilder.append(line + "\n");
-                }
-
-                is.close();
-
-                return new JSONObject(sBuilder.toString());
-            } catch (IOException e) {
-                return null;
-            }
-            catch (Exception e){
-                return null;
-            }
+        String line = null;
+        while ((line = bReader.readLine()) != null) {
+          sBuilder.append(line + "\n");
         }
 
-        protected void onPostExecute(JSONObject result) {
-            t = (TextView) findViewById(R.id.detailView);
-            try {
-                t.setText("");
-                result = (JSONObject) result.get("_embedded");
-                JSONArray ja = (JSONArray) result.get("rh:doc");
-                for(int i = 0; i < ja.length(); i++){
-                    JSONObject tmp = ja.getJSONObject(i);
-                    JSONObject jo = tmp.getJSONObject("_id");
-                    t.append("id: " + jo.get("$oid")  + " | title:  " + tmp.get("title") + "\n\n");
-                }
-            }
-            catch (Exception e){
-                t.setText(e.toString());
-            }
-        }
+        is.close();
+
+        return new JSONObject(sBuilder.toString());
+      } catch (IOException e) {
+        return null;
+      }
+      catch (Exception e){
+        return null;
+      }
     }
 
+    protected void onPostExecute(JSONObject result) {
+      t = (TextView) findViewById(R.id.data);
+      try {
+        t.setText("");
+        result = (JSONObject) result.get("_embedded");
+        JSONArray ja = (JSONArray) result.get("rh:doc");
+        for(int i = 0; i < ja.length(); i++){
+          JSONObject tmp = ja.getJSONObject(i);
+          t.append("user name: " + tmp.get("name")  + " | role:  " + tmp.get("role") + "\n\n");
+        }
+      }
+      catch (Exception e){
+        t.setText(e.toString());
+      }
+    }
+  }
 }

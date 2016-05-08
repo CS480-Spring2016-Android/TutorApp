@@ -1,8 +1,12 @@
 package com.zaidi.cs480.spring.app.tutortabby.activities;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.os.Vibrator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
@@ -10,26 +14,26 @@ import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zaidi.cs480.spring.app.tutortabby.R;
+import com.zaidi.cs480.spring.app.tutortabby.Search;
 import com.zaidi.cs480.spring.app.tutortabby.adapters.NavItemAdapter;
 import com.zaidi.cs480.spring.app.tutortabby.items.NavItem;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import java.util.ArrayList;
 
-public class Profile extends Activity {
+public class Profile extends Activity implements ListView.OnItemClickListener{
   /*
     TODO(Romero): This layout will need to be used for the home screen.
                   Once the home screen is complete, this slide menu will be
@@ -59,7 +63,7 @@ public class Profile extends Activity {
     t.setText("Downloading");
 
     try {
-      URL url = new URL("http://romerosoftware.me:8080/tutor/user");
+      URL url = new URL("https://romerosoftware.me/api/select");
       new DownloadWebpageTask().execute(url);
     }
     catch (Exception e){
@@ -83,6 +87,8 @@ public class Profile extends Activity {
     navDrawerItems.add(new NavItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
     navDrawerItems.add(new NavItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 
+      t.setText(navDrawerItems.get(0).getTitle());
+
     navMenuIcons.recycle();
     adapter = new NavItemAdapter(getApplicationContext(), navDrawerItems);
     mDrawerList.setAdapter(adapter);
@@ -100,9 +106,11 @@ public class Profile extends Activity {
       public void onDrawerOpened(View drawerView) {
         getActionBar().setTitle(mDrawerTitle);
         invalidateOptionsMenu();
+
       }
     };
     mDrawerLayout.setDrawerListener(mDrawerToggle);
+      mDrawerList.setOnItemClickListener(this);
 
     if (savedInstanceState == null) {
     }
@@ -127,6 +135,7 @@ public class Profile extends Activity {
       default:
         return super.onOptionsItemSelected(item);
     }
+
   }
 
   /***
@@ -168,21 +177,18 @@ public class Profile extends Activity {
   //Async task to download from database
 
   private class DownloadWebpageTask extends AsyncTask<URL, Void, JSONObject> {
-    String result = "";
-
+      Bitmap img;
     @Override
     protected JSONObject doInBackground(URL... urls) {
       InputStream is;
       // params comes from the execute() call: params[0] is the url.
       try {
-
         HttpURLConnection conn = (HttpURLConnection) urls[0].openConnection();
         conn.setRequestMethod("GET");
         conn.setDoInput(true);
         // Starts the query
         conn.connect();
         is = conn.getInputStream();
-
 
 
         BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
@@ -206,19 +212,29 @@ public class Profile extends Activity {
     }
 
     protected void onPostExecute(JSONObject result) {
-      t = (TextView) findViewById(R.id.data);
+      TextView user = (TextView) findViewById(R.id.userName);
+      TextView email = (TextView) findViewById(R.id.role);
+        ImageView profilePic = (ImageView) findViewById(R.id.profileImage);
       try {
-        t.setText("");
-        result = (JSONObject) result.get("_embedded");
-        JSONArray ja = (JSONArray) result.get("rh:doc");
-        for(int i = 0; i < ja.length(); i++){
-          JSONObject tmp = ja.getJSONObject(i);
-          t.append("user name: " + tmp.get("name")  + " | role:  " + tmp.get("role") + "\n\n");
-        }
+          user.setText(result.get("studentName").toString());
+          email.setText(result.get("studentEmail").toString());
       }
       catch (Exception e){
         t.setText(e.toString());
       }
     }
   }
+
+    public void onItemClick(AdapterView parent, View view, int position, long id) {
+        selectItem(position);
+    }
+
+    private void selectItem(int position){
+        switch (position){
+            case 1:
+                Intent intent = new Intent(this, Search.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

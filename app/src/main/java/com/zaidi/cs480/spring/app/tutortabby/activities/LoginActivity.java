@@ -128,8 +128,9 @@ public class LoginActivity extends FragmentActivity
    * @return True if the user has logged in. False otherwise.
    */
   private boolean isLoggedIn(String username, String password) {
+    new SignupActivity(this).execute(username, password);
     // for now...
-    return true;
+    return false;
   }
 
 

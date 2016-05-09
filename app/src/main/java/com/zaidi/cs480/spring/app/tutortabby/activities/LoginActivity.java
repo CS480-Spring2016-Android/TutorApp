@@ -24,6 +24,8 @@ import com.zaidi.cs480.spring.app.tutortabby.R;
 import com.zaidi.cs480.spring.app.tutortabby.fragments.ForgotPasswordFragment;
 import com.zaidi.cs480.spring.app.tutortabby.fragments.SignupFragment;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * LoginActivity Activity to log the user in.
  * Created by MAGarcia on 4/19/2016.
@@ -92,6 +94,7 @@ public class LoginActivity extends FragmentActivity
       // Do the check to see if username and password match...
       // This is justa place holder lulz...
       startLoading();
+      disableActivity();
 
       if (isLoggedIn(usernameLoginText.getText().toString(), passwordLoginText.getText().toString())) {
         // Move on to the user's account home screen or something...
@@ -106,6 +109,7 @@ public class LoginActivity extends FragmentActivity
                      , "Username and Password do not match."
                      , Toast.LENGTH_SHORT).show();
         stopLoading();
+        enableActivity();
       }
     }
   }
@@ -128,9 +132,20 @@ public class LoginActivity extends FragmentActivity
    * @return True if the user has logged in. False otherwise.
    */
   private boolean isLoggedIn(String username, String password) {
-    new SignupActivity(this).execute(username, password);
+    DBLoginActivity act = new DBLoginActivity(this);
+    act.execute(username, password);
+    boolean value = false;
+    try {
+      value = act.get();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+      value = false;
+    } catch (ExecutionException e) {
+      e.printStackTrace();
+      value = false;
+    }
     // for now...
-    return false;
+    return value;
   }
 
 

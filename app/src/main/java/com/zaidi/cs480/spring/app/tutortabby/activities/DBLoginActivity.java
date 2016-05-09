@@ -16,14 +16,15 @@ import org.mariadb.jdbc.*;
 /**
  * Created by MAGarcia on 5/8/2016.
  */
-public class SignupActivity extends AsyncTask<String, Void, Boolean> {
+public class DBLoginActivity extends AsyncTask<String, Void, Boolean> {
+
   private Boolean loginSuccess;
   private Context context;
   private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net";
 
   private String lastErrorString;
 
-  SignupActivity(Context context) {
+  DBLoginActivity(Context context) {
     loginSuccess = false;
     this.context = context;
     lastErrorString = "NONE";

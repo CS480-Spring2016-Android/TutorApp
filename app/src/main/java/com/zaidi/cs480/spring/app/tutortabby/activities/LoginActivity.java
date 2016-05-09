@@ -139,10 +139,8 @@ public class LoginActivity extends FragmentActivity
       value = act.get();
     } catch (InterruptedException e) {
       e.printStackTrace();
-      value = false;
     } catch (ExecutionException e) {
       e.printStackTrace();
-      value = false;
     }
     // for now...
     return value;

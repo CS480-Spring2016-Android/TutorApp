@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.zaidi.cs480.spring.app.tutortabby.Search$PlaceholderFragment">
+    tools:context="com.zaidi.cs480.spring.app.tutortabby.Search$PlaceholderFragment"
+    android:onClick="search">
 
     <TextView
         android:id="@+id/section_label"
@@ -27,6 +28,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="search"
         android:text="Search"
         android:id="@+id/searchBtn"
         android:layout_alignBottom="@+id/searchField"

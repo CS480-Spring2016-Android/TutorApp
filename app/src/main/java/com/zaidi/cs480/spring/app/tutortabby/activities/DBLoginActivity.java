@@ -20,7 +20,7 @@ public class DBLoginActivity extends AsyncTask<String, Void, Boolean> {
 
   private Boolean loginSuccess;
   private Context context;
-  private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net";
+  private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net/tutorWeb";
 
   private String lastErrorString;
 
@@ -35,15 +35,18 @@ public class DBLoginActivity extends AsyncTask<String, Void, Boolean> {
     Connection DBconn = null;
     try {
       Class.forName("org.mariadb.jdbc.Driver").newInstance();
-      String username = (String)params[0];
-      String password = (String)params[1];
+      String username = "jacobromero";
+      String password = "uish6ahK";
 
       DBconn = DriverManager.getConnection(URL_LINK, username, password);
       Log.w("Connection", "open");
 
       Statement stmnt = DBconn.createStatement();
-      ResultSet resultSet = stmnt.executeQuery(" select * from student ");
+      ResultSet resultSet = stmnt.executeQuery("select tutorID from tutor where tutorName = \"" + params[0] + "\" and tutorPassword = \"" + params[1] + "\"");
 
+
+      if(!resultSet.next())
+        return false;
 
       // Close the DB just for testing purposes.
       DBconn.close();

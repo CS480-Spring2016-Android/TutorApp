@@ -18,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zaidi.cs480.spring.app.tutortabby.adapters.NavItemAdapter;
 import com.zaidi.cs480.spring.app.tutortabby.items.NavItem;
@@ -52,6 +54,13 @@ public class Search extends Activity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        Button searchBtn = (Button) findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search();
+            }
+        });
     }
 
     @Override
@@ -122,6 +131,10 @@ public class Search extends Activity
             ((Search) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+
+    private void search(){
+        Toast.makeText(this, "Yes", Toast.LENGTH_LONG).show();
     }
 
 }

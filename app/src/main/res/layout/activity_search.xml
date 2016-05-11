@@ -8,19 +8,48 @@
 
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
-    <FrameLayout
-        android:id="@+id/container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchField2"
+            android:layout_below="@+id/section_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/searchBtn2"
+            android:layout_toStartOf="@+id/searchBtn2"
+            android:hint="Enter Search Query" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="search"
+            android:text="Search"
+            android:id="@+id/searchBtn2"
+            android:layout_alignBottom="@+id/searchField2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
+
 
     <!-- The drawer is given a fixed width in dp and extends the full height of
          the container. -->
-    <fragment
-        android:id="@+id/navigation_drawer"
-        android:name="com.zaidi.cs480.spring.app.tutortabby.NavigationDrawerFragment"
-        android:layout_width="@dimen/navigation_drawer_width"
+    <ListView
+        android:id="@+id/list_slidermenu_search"
+        android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        tools:layout="@layout/drawer_search" />
+        android:choiceMode="singleChoice"
+        android:divider="@color/colorAccent"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/item_selector"
+        android:background="@color/colorListSelectorBackground"/>
+
+
 
 </android.support.v4.widget.DrawerLayout>

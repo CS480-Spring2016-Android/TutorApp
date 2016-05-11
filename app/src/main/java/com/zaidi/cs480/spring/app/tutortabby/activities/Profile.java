@@ -110,7 +110,7 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
       }
     };
     mDrawerLayout.setDrawerListener(mDrawerToggle);
-      mDrawerList.setOnItemClickListener(this);
+    mDrawerList.setOnItemClickListener(this);
 
     if (savedInstanceState == null) {
     }

@@ -60,10 +60,6 @@ public class DBLoginActivity extends AsyncTask<String, Void, Boolean> {
 
   @Override
   protected void onPostExecute(Boolean Result) {
-    if (loginSuccess) {
-      Toast.makeText(context, "Successful Login", Toast.LENGTH_SHORT).show();
-    } else {
-      Toast.makeText(context, lastErrorString, Toast.LENGTH_LONG).show();
-    }
+
   }
 }

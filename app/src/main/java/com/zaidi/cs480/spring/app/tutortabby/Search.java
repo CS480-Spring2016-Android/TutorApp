@@ -6,11 +6,16 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.os.AsyncTaskCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,9 +23,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +35,11 @@ import android.widget.Toast;
 import com.zaidi.cs480.spring.app.tutortabby.adapters.NavItemAdapter;
 import com.zaidi.cs480.spring.app.tutortabby.items.NavItem;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Search extends Activity implements ListView.OnItemClickListener {
@@ -46,7 +58,7 @@ public class Search extends Activity implements ListView.OnItemClickListener {
 
     private ArrayList<NavItem> navDrawerItems;
     private NavItemAdapter adapter;
-
+    private String searchText = "";
     /**
      * Used to store the last screen title. For use in.
      */
@@ -57,13 +69,7 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-//        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
-//        mTitle = getTitle();
-////
-////        // Set up the drawer.
-//        mNavigationDrawerFragment.setUp(
-//                R.id.navigation_drawer,
-//                (DrawerLayout) findViewById(R.id.drawer_layout));
+
         mTitle = mDrawerTitle = getTitle();
 
         navMenuTitles = getResources().getStringArray(R.array.nav_item_drawer_strings);
@@ -107,13 +113,14 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         if (savedInstanceState == null) {
         }
 
-        Button searchBtn = (Button) findViewById(R.id.searchBtn2);
+        Button searchBtn = (Button) findViewById(R.id.searchBtn);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 search();
             }
         });
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override
@@ -174,39 +181,9 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
 //    @Override
-//    public void onNavigationDrawerItemSelected(int position) {
-//        // update the main content by replacing fragments
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-//                .commit();
-//    }
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //
-//    public void onSectionAttached(int number) {
-//        switch (number) {
-//            case 1:
-//                mTitle = getString(R.string.title_section1);
-//                break;
-//            case 2:
-//                mTitle = getString(R.string.title_section2);
-//                break;
-//            case 3:
-//                mTitle = getString(R.string.title_section3);
-//                break;
-//        }
-//    }
-//
-//    public void restoreActionBar() {
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-//        actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setTitle(mTitle);
 //    }
 
     /**
@@ -240,17 +217,81 @@ public class Search extends Activity implements ListView.OnItemClickListener {
             View rootView = inflater.inflate(R.layout.fragment_search, container, false);
             return rootView;
         }
-
-//        @Override
-//        public void onAttach(Activity activity) {
-//            super.onAttach(activity);
-//            ((Search) activity).onSectionAttached(
-//                    getArguments().getInt(ARG_SECTION_NUMBER));
-//        }
     }
 
     private void search(){
-        Toast.makeText(this, "Yes", Toast.LENGTH_LONG).show();
+        EditText t = (EditText) findViewById(R.id.searchBox);
+
+        searchText = t.getText().toString();
+
+        new DownloadWebpageTask().execute();
+    }
+
+
+    private class DownloadWebpageTask extends AsyncTask<Void, Void, ResultSet> {
+        private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net/tutorWeb";
+        ArrayList<String> result = new ArrayList<>();
+        ResultSet resultSet;
+
+        @Override
+        protected ResultSet doInBackground(Void... voids) {
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                Class.forName("org.mariadb.jdbc.Driver").newInstance();
+                String username = "jacobromero";
+                String password = "uish6ahK";
+
+                Connection DBconn = DriverManager.getConnection(URL_LINK, username, password);
+                Log.w("Connection", "open");
+
+                Statement stmnt = DBconn.createStatement();
+
+                //TODO this will only search given fields, empty search returns all results, may need to limit
+                String sql = "Select t.name, t.email, t.source from ((select tutorName as name, tutorEmail as email, 'Tutor' as source from tutor where tutorname like \"%" + searchText +"%\" or tutoremail like \"%" + searchText + "%\") union (select studentName as name, studentEmail as email, 'Student' as source from student where studentname like \"%" + searchText + "%\" or studentemail like \"%" + searchText + "%\")) t order by t.name";
+
+                return stmnt.executeQuery(sql);
+
+
+            } catch (SQLException e) {
+                result.add(e.toString());
+                result.add(e.toString());
+            }
+            catch (Exception e){
+                result.add(e.toString());
+                result.add(e.toString());
+            }
+
+            return resultSet;
+        }
+
+        protected void onPostExecute(ResultSet result) {
+            TextView tv = (TextView) findViewById(R.id.searchResults);
+            try {
+                tv.setText("");
+                while(result.next()){
+                    tv.append(result.getString("name") + " | " + result.getString("email") + " | " + result.getString("source"));
+                    tv.append("\n\n____________________________________________\n\n");
+                }
+
+                tv.append("Done");
+            }
+            catch (Exception e){
+                System.out.println(e.toString());
+            }
+        }
+    }
+
+    public void onItemClick(AdapterView parent, View view, int position, long id) {
+        selectItem(position);
+    }
+
+    private void selectItem(int position){
+        switch (position){
+            case 1:
+                Intent intent = new Intent(this, Search.class);
+                startActivity(intent);
+                break;
+        }
     }
 
 }

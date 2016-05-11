@@ -39,6 +39,7 @@ public class LoginActivity extends FragmentActivity
   private Button loginButton;
   private View background;
   private Bundle savedInstanceState;
+  private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net/tutorWeb";
 
   @Override
   public void onCreate(Bundle os) {
@@ -96,10 +97,12 @@ public class LoginActivity extends FragmentActivity
       startLoading();
       disableActivity();
 
-      if (isLoggedIn(usernameLoginText.getText().toString(), passwordLoginText.getText().toString())) {
+      int userID;
+      if ((userID = isLoggedIn(usernameLoginText.getText().toString(), passwordLoginText.getText().toString())) != -1) {
         // Move on to the user's account home screen or something...
         //Test code for now to get to the user profile screen
         Intent intent = new Intent(this, Profile.class);
+        intent.putExtra("uid", userID);
         finish();
         startActivity(intent);
         //end test code
@@ -131,10 +134,10 @@ public class LoginActivity extends FragmentActivity
    * in order to check for user info.
    * @return True if the user has logged in. False otherwise.
    */
-  private boolean isLoggedIn(String username, String password) {
+  private int isLoggedIn(String username, String password) {
     DBLoginActivity act = new DBLoginActivity(this);
     act.execute(username, password);
-    boolean value = false;
+    int value = -1;
     try {
       value = act.get();
     } catch (InterruptedException e) {

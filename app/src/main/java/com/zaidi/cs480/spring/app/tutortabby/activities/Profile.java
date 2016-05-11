@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Profile extends Activity implements ListView.OnItemClickListener{
@@ -52,10 +58,16 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
   private NavItemAdapter adapter;
 
   private TextView t = null;
+  private int id;
+  private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net/tutorWeb";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    Bundle b = getIntent().getExtras();
+    id = b.getInt("uid");
+
     setContentView(R.layout.activity_sample_menu);
 
     t = (TextView)findViewById(R.id.data);
@@ -63,8 +75,8 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
     t.setText("Downloading");
 
     try {
-      URL url = new URL("https://romerosoftware.me/api/select");
-      new DownloadWebpageTask().execute(url);
+      String query = "select tutorName, tutorEmail from tutor where tutorID = " + id;
+      new DownloadWebpageTask().execute(query);
     }
     catch (Exception e){
       t.setText(e.toString());
@@ -87,7 +99,8 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
     navDrawerItems.add(new NavItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
     navDrawerItems.add(new NavItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 
-      t.setText(navDrawerItems.get(0).getTitle());
+//      t.setText(navDrawerItems.get(0).getTitle());
+    t.setText(Integer.toString(id));
 
     navMenuIcons.recycle();
     adapter = new NavItemAdapter(getApplicationContext(), navDrawerItems);
@@ -176,48 +189,46 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
 
   //Async task to download from database
 
-  private class DownloadWebpageTask extends AsyncTask<URL, Void, JSONObject> {
+  private class DownloadWebpageTask extends AsyncTask<String, Void, ArrayList<String>> {
       Bitmap img;
+    ArrayList<String> result = new ArrayList<>();
+
     @Override
-    protected JSONObject doInBackground(URL... urls) {
-      InputStream is;
+    protected ArrayList<String> doInBackground(String... strings) {
       // params comes from the execute() call: params[0] is the url.
       try {
-        HttpURLConnection conn = (HttpURLConnection) urls[0].openConnection();
-        conn.setRequestMethod("GET");
-        conn.setDoInput(true);
-        // Starts the query
-        conn.connect();
-        is = conn.getInputStream();
+        Class.forName("org.mariadb.jdbc.Driver").newInstance();
+        String username = "jacobromero";
+        String password = "uish6ahK";
 
+        Connection DBconn = DriverManager.getConnection(URL_LINK, username, password);
+        Log.w("Connection", "open");
 
-        BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
+        Statement stmnt = DBconn.createStatement();
+        ResultSet resultSet = stmnt.executeQuery(strings[0]);
 
-        StringBuilder sBuilder = new StringBuilder();
+        resultSet.next();
 
-        String line = null;
-        while ((line = bReader.readLine()) != null) {
-          sBuilder.append(line + "\n");
-        }
-
-        is.close();
-
-        return new JSONObject(sBuilder.toString());
-      } catch (IOException e) {
-        return null;
+        result.add(resultSet.getString("tutorName"));
+        result.add(resultSet.getString("tutorEmail"));
+      } catch (SQLException e) {
+        result.add(e.toString());
+        result.add(e.toString());
       }
       catch (Exception e){
-        return null;
+        result.add(e.toString());
+        result.add(e.toString());
       }
+
+      return result;
     }
 
-    protected void onPostExecute(JSONObject result) {
+    protected void onPostExecute(ArrayList<String> result) {
       TextView user = (TextView) findViewById(R.id.userName);
       TextView email = (TextView) findViewById(R.id.role);
-        ImageView profilePic = (ImageView) findViewById(R.id.profileImage);
       try {
-          user.setText(result.get("studentName").toString());
-          email.setText(result.get("studentEmail").toString());
+          user.setText(result.get(0));
+          email.setText(result.get(1));
       }
       catch (Exception e){
         t.setText(e.toString());

@@ -16,7 +16,7 @@ import org.mariadb.jdbc.*;
 /**
  * Created by MAGarcia on 5/8/2016.
  */
-public class DBLoginActivity extends AsyncTask<String, Void, Boolean> {
+public class DBLoginActivity extends AsyncTask<String, Void, Integer> {
 
   private Boolean loginSuccess;
   private Context context;
@@ -31,8 +31,9 @@ public class DBLoginActivity extends AsyncTask<String, Void, Boolean> {
   }
 
   @Override
-  protected Boolean doInBackground(String... params) {
+  protected Integer doInBackground(String... params) {
     Connection DBconn = null;
+    int id = -1;
     try {
       Class.forName("org.mariadb.jdbc.Driver").newInstance();
       String username = "jacobromero";
@@ -42,23 +43,30 @@ public class DBLoginActivity extends AsyncTask<String, Void, Boolean> {
       Log.w("Connection", "open");
 
       Statement stmnt = DBconn.createStatement();
-      ResultSet resultSet = stmnt.executeQuery("select tutorID from tutor where tutorName = \"" + params[0] + "\" and tutorPassword = \"" + params[1] + "\"");
+
+      //TODO this will search in both databases, however only one account is considered if the person is both a student and tutor with same user name and password this needs to be fixed at some point
+      String sql = "select t.id, t.name, t.source, count(*) as count from ((select tutorID as id, tutorName as name, 'tutor' as source from tutor where tutorName = \"" + params[0] + "\" and tutorPassword = \"" + params[1] + "\") union (select studentID as id, studentName as name, 'student' as source from student where studentName = \"" + params[0] + "\" and studentPassword = \"" + params[1] + "\")) t group by t.name";
+
+      ResultSet resultSet = stmnt.executeQuery(sql);
 
 
-      if(!resultSet.next())
-        return false;
+      if(!resultSet.next() && resultSet.getInt("count") != 0) {
+        return -1;
+      }
 
+      id = resultSet.getInt("id");
       // Close the DB just for testing purposes.
       DBconn.close();
-      loginSuccess = true;
+      loginSuccess = resultSet.next();
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       lastErrorString = e.getMessage();
       loginSuccess = false;
     }
-    return loginSuccess;
+    return id;
   }
 
-  @Override
+
   protected void onPostExecute(Boolean Result) {
 
   }

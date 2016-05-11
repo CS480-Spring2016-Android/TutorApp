@@ -247,7 +247,13 @@ public class Search extends Activity implements ListView.OnItemClickListener {
                 Statement stmnt = DBconn.createStatement();
 
                 //TODO this will only search given fields, empty search returns all results, may need to limit
-                String sql = "Select t.name, t.email, t.source from ((select tutorName as name, tutorEmail as email, 'Tutor' as source from tutor where tutorname like \"%" + searchText +"%\" or tutoremail like \"%" + searchText + "%\") union (select studentName as name, studentEmail as email, 'Student' as source from student where studentname like \"%" + searchText + "%\" or studentemail like \"%" + searchText + "%\")) t order by t.name";
+                String sql = "Select t.name, t.email, t.source from ((select tutorName as name, "
+                        + "tutorEmail as email, 'Tutor' as source from tutor where tutorname like \"%"
+                        + searchText +"%\" or tutoremail like \"%"
+                        + searchText + "%\") union (select studentName as name, studentEmail as "
+                        + "email, 'Student' as source from student where studentname like \"%"
+                        + searchText + "%\" or studentemail like \"%"
+                        + searchText + "%\")) t order by t.name";
 
                 return stmnt.executeQuery(sql);
 

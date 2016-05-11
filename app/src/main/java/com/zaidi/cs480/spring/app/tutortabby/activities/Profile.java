@@ -248,4 +248,14 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
                 break;
         }
     }
+
+  /**
+   * To keep having this profile show up, and to prevent the application from resetting if user
+   * decides to go into another application, this function must be called in order to retain the
+   * Activity while it is moved to the back process.
+   */
+  @Override
+  public void onBackPressed() {
+    moveTaskToBack(true);
+  }
 }

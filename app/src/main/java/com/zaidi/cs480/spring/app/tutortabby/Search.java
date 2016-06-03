@@ -269,12 +269,14 @@ public class Search extends Activity implements ListView.OnItemClickListener {
                 Statement stmnt = DBconn.createStatement();
 
                 //TODO this will only search given fields, empty search returns all results, may need to limit
-                String sql = "Select t.id, t.name, t.email, t.source from ((select tutorID as id, tutorName as name, "
-                        + "tutorEmail as email, 'Tutor' as source from tutor where tutorname like \"%"
+                String sql = "Select t.id, t.name, t.email, t.subject, t.source from ((select tutorID as id, tutorName as name, "
+                        + "tutorEmail as email, 'Tutor' as source, tutorSubjects as subject from tutor where tutorname like \"%"
                         + searchText +"%\" or tutoremail like \"%"
+                        + searchText + "%\" or tutorSubjects like \"%"
                         + searchText + "%\") union (select studentID as id, studentName as name, studentEmail as "
-                        + "email, 'Student' as source from student where studentname like \"%"
+                        + "email, 'Student' as source, studentSubjects as subject from student where studentname like \"%"
                         + searchText + "%\" or studentemail like \"%"
+                        + searchText + "%\" or studentSubjects like \"%"
                         + searchText + "%\")) t order by t.name";
 
                 return stmnt.executeQuery(sql);
@@ -297,7 +299,7 @@ public class Search extends Activity implements ListView.OnItemClickListener {
             try {
 //                tv.setText("");
                 while(result.next()){
-                    listAdapter.add(new listItem(result.getInt("id"), "Name: " + result.getString("name") + "\n\nEmail: " + result.getString("email") + "\n\nRole: " + result.getString("source")));
+                    listAdapter.add(new listItem(result.getInt("id"), "Name: " + result.getString("name") + "\n\nEmail: " + result.getString("email") + "\n\nRole: " + result.getString("source") + "\n\nSubjects: " + result.getString("subject")));
                 }
             }
             catch (Exception e){

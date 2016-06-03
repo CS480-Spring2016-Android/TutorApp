@@ -138,6 +138,14 @@ public class Search extends Activity implements ListView.OnItemClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
+                Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                emailIntent.setType("plain/text");
+
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] {listAdapter.getItem(position).email});
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Tutoring?");
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,"");
+
+                startActivity(emailIntent);
 //                listAdapter.add(new listItem(12, Integer.toString(listAdapter.getItem(position).id)));
             }
         });
@@ -299,7 +307,7 @@ public class Search extends Activity implements ListView.OnItemClickListener {
             try {
 //                tv.setText("");
                 while(result.next()){
-                    listAdapter.add(new listItem(result.getInt("id"), "Name: " + result.getString("name") + "\n\nEmail: " + result.getString("email") + "\n\nRole: " + result.getString("source") + "\n\nSubjects: " + result.getString("subject")));
+                    listAdapter.add(new listItem(result.getInt("id"), "Name: " + result.getString("name") + "\n\nEmail: " + result.getString("email") + "\n\nRole: " + result.getString("source") + "\n\nSubjects: " + result.getString("subject"), result.getString("email")));
                 }
             }
             catch (Exception e){

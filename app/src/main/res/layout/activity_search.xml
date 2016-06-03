@@ -52,29 +52,15 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 
-        <RelativeLayout
+        <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/searchResults"
             android:layout_below="@+id/divider"
+            android:layout_alignRight="@+id/searchBtn"
+            android:layout_alignEnd="@+id/searchBtn"
             android:layout_alignLeft="@+id/searchBox"
-            android:layout_alignStart="@+id/searchBox">
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/searchResults"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:paddingBottom="20dp" />
-            </ScrollView>
-        </RelativeLayout>
-
+            android:layout_alignStart="@+id/searchBox" />
 
 
     </RelativeLayout>

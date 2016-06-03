@@ -41,6 +41,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Search extends Activity implements ListView.OnItemClickListener {
 
@@ -59,6 +60,9 @@ public class Search extends Activity implements ListView.OnItemClickListener {
     private ArrayList<NavItem> navDrawerItems;
     private NavItemAdapter adapter;
     private String searchText = "";
+
+    private ListView mainListView;
+    private ArrayAdapter<listItem> listAdapter;
     /**
      * Used to store the last screen title. For use in.
      */
@@ -110,8 +114,8 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerList.setOnItemClickListener(this);
 
-        if (savedInstanceState == null) {
-        }
+//        if (savedInstanceState == null) {
+//        }
 
         Button searchBtn = (Button) findViewById(R.id.searchBtn);
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +125,22 @@ public class Search extends Activity implements ListView.OnItemClickListener {
             }
         });
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        mainListView = (ListView) findViewById( R.id.searchResults );
+
+
+        // Create ArrayAdapter using the planet list.
+        listAdapter = new ArrayAdapter<listItem>(this, R.layout.simplerow);
+
+        mainListView.setAdapter( listAdapter );
+
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+//                listAdapter.add(new listItem(12, Integer.toString(listAdapter.getItem(position).id)));
+            }
+        });
     }
 
     @Override
@@ -224,6 +244,8 @@ public class Search extends Activity implements ListView.OnItemClickListener {
 
         searchText = t.getText().toString();
 
+        listAdapter.clear();
+
         new DownloadWebpageTask().execute();
     }
 
@@ -247,10 +269,10 @@ public class Search extends Activity implements ListView.OnItemClickListener {
                 Statement stmnt = DBconn.createStatement();
 
                 //TODO this will only search given fields, empty search returns all results, may need to limit
-                String sql = "Select t.name, t.email, t.source from ((select tutorName as name, "
+                String sql = "Select t.id, t.name, t.email, t.source from ((select tutorID as id, tutorName as name, "
                         + "tutorEmail as email, 'Tutor' as source from tutor where tutorname like \"%"
                         + searchText +"%\" or tutoremail like \"%"
-                        + searchText + "%\") union (select studentName as name, studentEmail as "
+                        + searchText + "%\") union (select studentID as id, studentName as name, studentEmail as "
                         + "email, 'Student' as source from student where studentname like \"%"
                         + searchText + "%\" or studentemail like \"%"
                         + searchText + "%\")) t order by t.name";
@@ -271,15 +293,12 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         }
 
         protected void onPostExecute(ResultSet result) {
-            TextView tv = (TextView) findViewById(R.id.searchResults);
+//            TextView tv = (TextView) findViewById(R.id.searchResults);
             try {
-                tv.setText("");
+//                tv.setText("");
                 while(result.next()){
-                    tv.append(result.getString("name") + " | " + result.getString("email") + " | " + result.getString("source"));
-                    tv.append("\n\n____________________________________________\n\n");
+                    listAdapter.add(new listItem(result.getInt("id"), "Name: " + result.getString("name") + "\n\nEmail: " + result.getString("email") + "\n\nRole: " + result.getString("source")));
                 }
-
-                tv.append("Done");
             }
             catch (Exception e){
                 System.out.println(e.toString());

@@ -335,6 +335,10 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
         selectItem(position);
     }
 
+    /**
+    * Select item will allow the profile page to switch to another page, search, community, home, etc.
+    * @param position
+    */
     private void selectItem(int position){
         Intent intent = null;
 
@@ -363,6 +367,12 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
         }
     }
 
+  /**
+   * Result code is returned when user attempts to open another page, while in another page.
+   * @param requestCode
+   * @param resultCode
+   * @param data
+   */
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);

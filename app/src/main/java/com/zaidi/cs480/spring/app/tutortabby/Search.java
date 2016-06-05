@@ -346,7 +346,12 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         selectItem(position);
     }
 
-    private void selectItem(int position){
+  /**
+   * Select item will prevent the user from making more pages than there needs to be. I will return
+   * to the Profile page, and execute the next page that the user requested.
+   * @param position
+   */
+  private void selectItem(int position){
         Intent intent = new Intent();
         String value = "-1";
         switch (position) {

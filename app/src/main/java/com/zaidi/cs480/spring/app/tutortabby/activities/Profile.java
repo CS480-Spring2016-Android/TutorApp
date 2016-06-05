@@ -336,13 +336,44 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
     }
 
     private void selectItem(int position){
-        switch (position){
-            case 1:
-                Intent intent = new Intent(this, Search.class);
-                startActivity(intent);
-                break;
+        Intent intent = null;
+
+        switch (position) {
+          case 0:
+            break;
+          case 1:
+            intent = new Intent(this, Search.class);
+            break;
+          case 2:
+            // We are already at Profile!!
+            break;
+          case 3:
+            intent = new Intent(this, CommunityActivity.class);
+            break;
+          case 4:
+            break;
+          case 5:
+            break;
+          default:
+            intent = null;
+        }
+
+        if (intent != null) {
+          startActivityForResult(intent, 1);
         }
     }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == 1) {
+      if (resultCode == RESULT_OK) {
+        String digestValue = data.getStringExtra("value");
+        int position = Integer.parseInt(digestValue);
+        selectItem(position);
+      }
+    }
+  }
 
   /**
    * To keep having this profile show up, and to prevent the application from resetting if user

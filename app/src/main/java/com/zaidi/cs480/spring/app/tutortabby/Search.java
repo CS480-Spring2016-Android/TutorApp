@@ -347,11 +347,37 @@ public class Search extends Activity implements ListView.OnItemClickListener {
     }
 
     private void selectItem(int position){
-        switch (position){
-            case 1:
-                Intent intent = new Intent(this, Search.class);
-                startActivity(intent);
+        Intent intent = new Intent();
+        String value = "-1";
+        switch (position) {
+            case 0:
+                value = "0";
                 break;
+            case 1:
+                intent = null;
+                // Already at Search!!
+                break;
+            case 2:
+                value = "2";
+                break;
+            case 3:
+                value = "3";
+                break;
+            case 4:
+                value = "4";
+                break;
+            case 5:
+                value = "5";
+                break;
+            default:
+                intent = null;
+                break;
+        }
+
+        if (intent != null) {
+            intent.putExtra("value", value);
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 

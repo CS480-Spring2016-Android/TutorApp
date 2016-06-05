@@ -33,8 +33,19 @@
                 android:id="@+id/signupTextig"
                 android:layout_centerHorizontal="true"
                 android:textSize="20sp"
-                android:layout_marginTop="200dp"
+                android:layout_below="@id/welcomeSignupImage"
                 android:text="Sign up Today! It's Easy!"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:spinnerMode="dropdown"
+                android:layout_below="@+id/signupTextig"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/firstName"
@@ -42,9 +53,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="250dp"
+                android:layout_below="@+id/spinner"
                 android:singleLine="true"
-                android:imeOptions="actionNext"/>
+                android:inputType="text"
+                android:nextFocusDown="@+id/lastName"/>
 
             <EditText
                 android:id="@+id/lastName"
@@ -52,39 +64,32 @@
                 android:layout_width="300dp"
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="300dp"
+                android:layout_below="@+id/firstName"
+                android:layout_marginTop="10dp"
                 android:singleLine="true"
-                android:imeOptions="actionNext"/>
+                android:nextFocusDown="@+id/emailText"/>
 
             <EditText
                 android:id="@+id/emailText"
                 android:inputType="textEmailAddress"
                 android:layout_width="300dp"
-                android:layout_marginTop="350dp"
+                android:layout_below="@+id/lastName"
+                android:layout_marginTop="10dp"
                 android:hint="Email"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:imeOptions="actionNext"/>
-
-            <EditText
-                android:layout_width="300dp"
-                android:id="@+id/newUsername"
-                android:layout_centerHorizontal="true"
-                android:hint="@string/Username"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="400dp"
-                android:singleLine="true"
-                android:imeOptions="actionNext"/>
+                android:nextFocusDown="@+id/newPassW" />
 
             <EditText
                 android:id="@+id/newPassW"
                 android:hint="@string/passwordInput"
-                android:layout_marginTop="450dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:inputType="textPassword"
-                android:imeOptions="actionNext"/>
+                android:layout_below="@+id/emailText"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:nextFocusDown="@+id/retypePassW" />
 
             <EditText
                 android:id="@+id/retypePassW"
@@ -92,7 +97,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="500dp"
+                android:layout_below="@+id/newPassW"
+                android:layout_marginTop="10dp"
                 android:inputType="textPassword"
                 android:imeOptions="actionDone"/>
 
@@ -101,21 +107,22 @@
                 android:layout_height="150dp"
                 android:id="@+id/profileImage"
                 android:src="@mipmap/ic_launcher"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="50dp"/>
+                android:layout_below="@+id/retypePassW"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <Button
                 android:id="@+id/doneButton"
                 android:text="Done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="700dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:onClick="onDone"/>
+                android:onClick="onDone"
+                android:layout_below="@id/retypePassW"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true" />
+
+
+
         </RelativeLayout>
     </ScrollView>
 

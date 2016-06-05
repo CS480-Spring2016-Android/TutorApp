@@ -26,6 +26,8 @@ import com.zaidi.cs480.spring.app.tutortabby.Search;
 import com.zaidi.cs480.spring.app.tutortabby.adapters.NavItemAdapter;
 import com.zaidi.cs480.spring.app.tutortabby.items.NavItem;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,7 +59,6 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
   private ArrayList<NavItem> navDrawerItems;
   private NavItemAdapter adapter;
 
-  private TextView t = null;
   private int id;
   private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net/tutorWeb";
 
@@ -67,19 +68,115 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
 
     Bundle b = getIntent().getExtras();
     id = b.getInt("uid");
+    String user = b.getString("user");
+    String source = b.getString("source");
 
     setContentView(R.layout.activity_sample_menu);
 
-    t = (TextView)findViewById(R.id.data);
+    TextView infoBox = (TextView)findViewById(R.id.data);
+    TextView roleBox = (TextView)findViewById(R.id.role);
+    TextView nameBox = (TextView)findViewById(R.id.userName);
 
-    t.setText("Downloading");
+    String info, role, name;
 
+    infoBox.setText("Downloading");
+
+
+    ResultSet res;
     try {
-      String query = "select tutorName, tutorEmail from tutor where tutorID = " + id;
-      new DownloadWebpageTask().execute(query);
+      if(source.equals("tutor")){
+        String query = "select * from tutor where tutorID = " + id;
+        DBLoginActivity act = new DBLoginActivity(this);
+        act.execute("exe", query);
+
+        res = act.get();
+
+        if(res.next()) {
+          name = res.getString("tutorname");
+          role = source;
+
+          info = "Tutor section\n" +
+                  "________________________________\n\n" +
+                  "Tutor Email: " + res.getString("tutoremail") +
+                  "\nTutor Subjects: " + res.getString("tutorsubjects") +
+                  "\nHourly Rate: " + res.getString("tutorrateperhour") +
+                  "\nHours Tutored: " + res.getString("tutortotalhours") +
+                  "\nTutor Address: " + res.getString("tutoraddress") +
+                  "\n\nAbout: \n\n" + res.getString("tutordescription");
+
+
+          infoBox.setText(info);
+          roleBox.setText(role);
+          nameBox.setText(name);
+        }
+      }
+      else if(source.equals("student")){
+        String query = "select * from student where studentID = " + id;
+
+        DBLoginActivity act = new DBLoginActivity(this);
+        act.execute("exe", query);
+
+
+        res = act.get();
+
+        if(res.next()) {
+          name = res.getString("studentname");
+          role = source;
+
+          info = "Student Section\n" +
+                  "________________________________\n\n" +
+                  "Student Email: " + res.getString("studentemail") +
+                  "\nStudent Subjects: " + res.getString("studentsubjects") +
+                  "\nStudent Address: " + res.getString("studentaddress");
+
+          infoBox.setText(info);
+          roleBox.setText(role);
+          nameBox.setText(name);
+        }
+      }
+      else{
+//        select t.id, t.name, t.source, count(*) as count from ((select tutorID as id, tutorName as name, 'tutor' as source from tutor where tutorName = "" + username + "\" and tutorPassword = \"" + password + "\") union (select studentID as id, studentName as name, 'student' as source from student where studentName = \"" + username + "\" and studentPassword = \"" + password + "\")) t group by t.name";
+        String query = "select * from ((select tutorName as name, tutorEmail as temail, \"Tutor\" as source, tutorsubjects as tsub, tutorDescription as descr, tutorRatePerHour as rate, tutortotalHours as hours, tutorAddress as taddress, null as semail from tutor where tutorName = \"" + user + "\" and tutorPassword = \"" +b.getString("pass") + "\") " +
+                "union " +
+                "(select studentName as name, studentEmail as semail, \"Student\" as source, studentSubjects as ssub, null as descr, null as rate, null as hours, studentAddress as saddress, null as temail from student where studentName = \"" + user + "\" and studentPassword = \"" + b.getString("pass") + "\")) t";
+        DBLoginActivity act = new DBLoginActivity(this);
+        act.execute("exe", query);
+
+        res = act.get();
+
+        if(res.next()) {
+          name = res.getString("name");
+          role = source;
+
+          info = "Tutor section\n" +
+                  "________________________________\n\n" +
+                  "Tutor Email: " + res.getString("temail") +
+                  "\nTutor Subjects: " + res.getString("tsub") +
+                  "\nHourly Rate: " + res.getString("rate") +
+                  "\nHours Tutored: " + res.getString("hours") +
+                  "\nTutor Address: " + res.getString("taddress") +
+                  "\n\nAbout: \n\n" + res.getString("descr");
+
+          res.next();
+
+          info += "\n\n________________________________" +
+                  "\n\nStudent Section\n" +
+                  "________________________________\n\n" +
+                  "Student Email: " + res.getString("temail") +
+                  "\nStudent Subjects: " + res.getString("tsub") +
+                  "\nStudent Address: " + res.getString("taddress");
+
+          infoBox.setText(info);
+          roleBox.setText(role);
+          nameBox.setText(name);
+
+
+//          info.setText(res.getString("descr"));
+        }
+      }
     }
     catch (Exception e){
-      t.setText(e.toString());
+      infoBox.setText(e.toString());
     }
 
     mTitle = mDrawerTitle = getTitle();
@@ -99,8 +196,6 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
     navDrawerItems.add(new NavItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
     navDrawerItems.add(new NavItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 
-//      t.setText(navDrawerItems.get(0).getTitle());
-    t.setText(Integer.toString(id));
 
     navMenuIcons.recycle();
     adapter = new NavItemAdapter(getApplicationContext(), navDrawerItems);
@@ -209,8 +304,8 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
 
         resultSet.next();
 
-        result.add(resultSet.getString("tutorName"));
-        result.add(resultSet.getString("tutorEmail"));
+//        result.add(resultSet.getString("tutorName"));
+//        result.add(resultSet.getString("tutorEmail"));
       } catch (SQLException e) {
         result.add(e.toString());
         result.add(e.toString());
@@ -231,7 +326,7 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
           email.setText(result.get(1));
       }
       catch (Exception e){
-        t.setText(e.toString());
+//        t.setText(e.toString());
       }
     }
   }

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v4.os.AsyncTaskCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -114,8 +115,6 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerList.setOnItemClickListener(this);
 
-//        if (savedInstanceState == null) {
-//        }
 
         Button searchBtn = (Button) findViewById(R.id.searchBtn);
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,10 +133,11 @@ public class Search extends Activity implements ListView.OnItemClickListener {
 
         mainListView.setAdapter( listAdapter );
 
+        registerForContextMenu(mainListView);
+
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
                 emailIntent.setType("plain/text");
 
@@ -146,9 +146,35 @@ public class Search extends Activity implements ListView.OnItemClickListener {
                 emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,"");
 
                 startActivity(emailIntent);
-//                listAdapter.add(new listItem(12, Integer.toString(listAdapter.getItem(position).id)));
             }
         });
+    }
+
+    //create context menu here
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId()==R.id.searchResults) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            menu.setHeaderTitle("something");
+            String[] menuItems = {"1", "2", "3"};
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
+    }
+
+    //set context menu on click here
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
+        String[] menuItems = {"1","2","3"};
+        String menuItemName = menuItems[menuItemIndex];
+        String listItemName = "something";
+
+        Toast.makeText(getApplicationContext(), menuItemName + " " + listItemName, Toast.LENGTH_LONG).show();
+        return true;
     }
 
     @Override

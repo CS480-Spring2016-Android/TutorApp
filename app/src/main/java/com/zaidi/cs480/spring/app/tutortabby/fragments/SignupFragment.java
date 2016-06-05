@@ -7,7 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.zaidi.cs480.spring.app.tutortabby.R;
 
@@ -63,6 +68,7 @@ public class SignupFragment extends Fragment {
       mParam1 = getArguments().getString(ARG_PARAM1);
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
+
   }
 
   @Override
@@ -70,6 +76,16 @@ public class SignupFragment extends Fragment {
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     ViewGroup v = (ViewGroup)inflater.inflate(R.layout.fragment_signup, container, false);
+
+    Spinner spinner = (Spinner) v.findViewById(R.id.spinner);
+    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+            R.array.role_array, android.R.layout.simple_spinner_item);
+
+
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+    spinner.setAdapter(adapter);
+
     return v;
   }
 
@@ -111,5 +127,10 @@ public class SignupFragment extends Fragment {
   public interface OnFragmentInteractionListener {
     // TODO: Update argument type and name
     void onSignupFragmentInteraction(Uri uri);
+  }
+
+  public void onDone(View View) {
+    Toast.makeText(getContext(), "test", Toast.LENGTH_SHORT).show();
+
   }
 }

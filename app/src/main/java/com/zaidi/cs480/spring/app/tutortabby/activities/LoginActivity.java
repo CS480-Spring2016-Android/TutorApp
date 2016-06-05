@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -17,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,10 @@ import com.zaidi.cs480.spring.app.tutortabby.R;
 import com.zaidi.cs480.spring.app.tutortabby.fragments.ForgotPasswordFragment;
 import com.zaidi.cs480.spring.app.tutortabby.fragments.SignupFragment;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -40,6 +46,7 @@ public class LoginActivity extends FragmentActivity
   private View background;
   private Bundle savedInstanceState;
   private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net/tutorWeb";
+  protected Queue<String> signUp = new ArrayDeque<String>();
 
   @Override
   public void onCreate(Bundle os) {
@@ -54,11 +61,11 @@ public class LoginActivity extends FragmentActivity
     savedInstanceState = os;
 
     boolean successful = getIntent().getBooleanExtra("programLoaded", false);
-    if (successful) {
-      Toast.makeText(this, "Yep", Toast.LENGTH_SHORT).show();
-    } else {
-      Toast.makeText(this, "Nope", Toast.LENGTH_SHORT).show();
-    }
+//    if (successful) {
+//      Toast.makeText(this, "Yep", Toast.LENGTH_SHORT).show();
+//    } else {
+//      Toast.makeText(this, "Nope", Toast.LENGTH_SHORT).show();
+//    }
     // Animate the background
     animateBackground(R.color.colorLoginBackgroundDark, R.color.colorPrimary);
 
@@ -97,22 +104,44 @@ public class LoginActivity extends FragmentActivity
       startLoading();
       disableActivity();
 
-      int userID;
-      if ((userID = isLoggedIn(usernameLoginText.getText().toString(), passwordLoginText.getText().toString())) != -1) {
-        // Move on to the user's account home screen or something...
-        //Test code for now to get to the user profile screen
-        Intent intent = new Intent(this, Profile.class);
-        intent.putExtra("uid", userID);
-        finish();
-        startActivity(intent);
-        //end test code
-      } else {
-        // Display to the user that s/he has not logged in successfully.
-        Toast.makeText(LoginActivity.this
-                     , "Username and Password do not match."
-                     , Toast.LENGTH_SHORT).show();
-        stopLoading();
-        enableActivity();
+      ResultSet res;
+      try {
+        if ((res = isLoggedIn(usernameLoginText.getText().toString(), passwordLoginText.getText().toString())) != null && res.next()) {
+          // Move on to the user's account home screen or something...
+          //Test code for now to get to the user profile screen
+          if(res.getInt("count") == 2) {
+            Intent intent = new Intent(this, Profile.class);
+            intent.putExtra("uid", res.getInt("id"));
+            intent.putExtra("user", res.getString("name"));
+            intent.putExtra("source", "tutor&student");
+            intent.putExtra("auth", true);
+            intent.putExtra("pass", res.getString("pass"));
+
+            finish();
+            startActivity(intent);
+          }
+          else {
+            Intent intent = new Intent(this, Profile.class);
+            intent.putExtra("uid", res.getInt("id"));
+            intent.putExtra("user", res.getString("name"));
+            intent.putExtra("source", res.getString("source"));
+            intent.putExtra("auth", true);
+            intent.putExtra("pass", res.getString("pass"));
+
+            finish();
+            startActivity(intent);
+          }
+          //end test code
+        } else {
+          // Display to the user that s/he has not logged in successfully.
+          Toast.makeText(LoginActivity.this
+                  , "Username or Password do not match."
+                  , Toast.LENGTH_SHORT).show();
+          stopLoading();
+          enableActivity();
+        }
+      } catch (SQLException sqe) {
+        System.out.println(sqe.getMessage());
       }
     }
   }
@@ -134,19 +163,34 @@ public class LoginActivity extends FragmentActivity
    * in order to check for user info.
    * @return True if the user has logged in. False otherwise.
    */
-  private int isLoggedIn(String username, String password) {
+  private ResultSet isLoggedIn(String username, String password) {
     DBLoginActivity act = new DBLoginActivity(this);
-    act.execute(username, password);
+    String sql = "select t.id, t.name, t.source, t.pass, count(*) as count from ((select tutorID as id, tutorName as name, 'tutor' as source, tutorPassword as pass from tutor where tutorName = \"" + username + "\" and tutorPassword = \"" + password + "\") union (select studentID as id, studentName as name, 'student' as source, studentPassword as pass from student where studentName = \"" + username + "\" and studentPassword = \"" + password + "\")) t group by t.name";
+    act.execute("exe", sql);
+    ResultSet res = null;
+    String txt = "";
     int value = -1;
     try {
-      value = act.get();
+      res = act.get();
+
+//      if(res != null){
+//        try {
+//          if(res.next())
+//            value = res.getInt("id");
+//        }
+//        catch (SQLException sqlE){
+//          Toast.makeText(LoginActivity.this, sqlE.toString(), Toast.LENGTH_LONG).show();
+//          value = -1;
+//        }
+//      }
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (ExecutionException e) {
       e.printStackTrace();
     }
+
     // for now...
-    return value;
+    return res;
   }
 
 
@@ -292,6 +336,42 @@ public class LoginActivity extends FragmentActivity
   }
 
   public void onDone(View view) {
+    String firstName = ((EditText) findViewById(R.id.firstName)).getText().toString();
+    String lastName = ((EditText) findViewById(R.id.lastName)).getText().toString();
+    String name = firstName + " " + lastName;
+
+    String emailText = ((EditText) findViewById(R.id.emailText)).getText().toString();
+    String pass = ((EditText) findViewById(R.id.newPassW)).getText().toString();
+    String role = ((Spinner) findViewById(R.id.spinner)).getSelectedItem().toString();
+
+
+    DBLoginActivity act = new DBLoginActivity(this);
+    String sql;
+    String success = "Account Not Created";
+
+    if(name.trim().compareTo("") != 0 && pass.trim().compareTo("") != 0 && emailText.trim().compareTo("") != 0) {
+      if (role.compareTo("Tutor") == 0) {
+        sql = "INSERT INTO tutor (tutorName, tutorPassword, tutorEmail) values(\"" + name + "\",\"" + pass + "\",\"" + emailText + "\")";
+      } else {
+        sql = "INSERT INTO student (studentName, studentPassword, studentEmail) values(\"" + name + "\",\"" + pass + "\",\"" + emailText + "\")";
+      }
+    }
+    else
+      sql = null;
+
+    if(sql != null){
+      act.execute("up", sql);
+      try {
+        act.get();
+        success = "Account Created";
+      }
+      catch (Exception e){
+        System.out.println(e.getMessage());
+      }
+    }
+
+    Toast.makeText(getBaseContext(), success, Toast.LENGTH_SHORT).show();
+
     getSupportFragmentManager().popBackStack();
     enableActivity();
   }

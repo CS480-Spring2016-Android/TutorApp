@@ -182,7 +182,6 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // toggle nav drawer on selecting action bar app icon/title
@@ -234,6 +233,7 @@ public class Search extends Activity implements ListView.OnItemClickListener {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
 
 //    @Override
 //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

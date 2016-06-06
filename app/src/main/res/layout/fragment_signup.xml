@@ -73,7 +73,7 @@
                 android:id="@+id/emailText"
                 android:inputType="textEmailAddress"
                 android:layout_width="300dp"
-                android:layout_below="@+id/lastName"
+                android:layout_below="@id/lastName"
                 android:layout_marginTop="10dp"
                 android:hint="Email"
                 android:layout_height="wrap_content"
@@ -111,6 +111,17 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
+            <Spinner
+                android:layout_width="200dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/profileImage"
+                android:id="@+id/subjects_content"
+                android:layout_centerHorizontal="false"
+                android:spinnerMode="dropdown"
+                android:hint="Subject"
+                android:layout_below="@id/retypePassW"/>
+
             <Button
                 android:id="@+id/doneButton"
                 android:text="Done"
@@ -118,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="onDone"
                 android:layout_below="@id/retypePassW"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="80dp"
                 android:layout_centerHorizontal="true" />
 
 

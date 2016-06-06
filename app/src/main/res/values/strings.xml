@@ -47,4 +47,31 @@
         <item>Tutor</item>
         <item>Student</item>
     </string-array>
+
+    <string-array name="subjects_array">
+        <item>None</item>
+        <item>Mathematics</item>
+        <item>Literature</item>
+        <item>Sports</item>
+        <item>Art</item>
+        <item>Culture</item>
+        <item>Music</item>
+        <item>Food</item>
+        <item>Social Science</item>
+        <item>Computer Science</item>
+        <item>Physics</item>
+        <item>Quantum Physics</item>
+        <item>English</item>
+        <item>Foreign Languages</item>
+        <item>Biology</item>
+        <item>Microbiology</item>
+        <item>Chemistry</item>
+        <item>History</item>
+        <item>Industrial Engineering</item>
+        <item>Mechanical Engineering</item>
+        <item>Electrical Engineering</item>
+        <item>Hardware Engineering</item>
+        <item>Journalism</item>
+        <item>International Relations</item>
+    </string-array>
 </resources>

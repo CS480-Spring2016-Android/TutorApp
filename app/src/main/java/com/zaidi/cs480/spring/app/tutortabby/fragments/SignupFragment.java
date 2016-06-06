@@ -78,13 +78,19 @@ public class SignupFragment extends Fragment {
     ViewGroup v = (ViewGroup)inflater.inflate(R.layout.fragment_signup, container, false);
 
     Spinner spinner = (Spinner) v.findViewById(R.id.spinner);
+    Spinner subjectSpinner = (Spinner) v.findViewById(R.id.subjects_content);
     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
             R.array.role_array, android.R.layout.simple_spinner_item);
 
+    ArrayAdapter<CharSequence> subAdapter = ArrayAdapter.createFromResource(getContext(),
+            R.array.subjects_array, android.R.layout.simple_spinner_item);
+
 
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    subAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
     spinner.setAdapter(adapter);
+    subjectSpinner.setAdapter(subAdapter);
 
     return v;
   }

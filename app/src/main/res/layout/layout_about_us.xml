@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="200dp"
+                        android:id="@+id/Tutor_about_us_img"
+                        android:src="@drawable/cattutor"
+                        android:contentDescription="A cat"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_below="@id/Tutor_about_us_img"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="40sp"
+                        android:id="@+id/about_us_text"
+                        android:text="Tutor Tabby"/>
+
+                    <TextView
+                        android:id="@+id/description_project"
+                        android:layout_marginTop="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/about_us_text"
+                        android:textSize="15sp"
+                        android:text="Tutor Tabby is a tutoring app, developed for the Spring quarter of CS480."/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/project_manager"
+                        android:textStyle="bold"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="40dp"
+                        android:textSize="20sp"
+                        android:layout_below="@id/description_project"
+                        android:text="Project Manager"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/project_manager_name"
+                        android:layout_marginTop="15sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/project_manager"
+                        android:textSize="16sp"
+                        android:text="Anthony Watanabe"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:textStyle="bold"
+                        android:layout_below="@id/project_manager_name"
+                        android:id="@+id/business_analyst"
+                        android:textSize="20sp"
+                        android:text="Business Analyst"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/business_analyst_name"
+                        android:layout_below="@id/business_analyst"
+                        android:textSize="16sp"
+                        android:text="Kacey Yahl"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/developers"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/business_analyst_name"
+                        android:layout_marginTop="20dp"
+                        android:textSize="20sp"
+                        android:text="Developers"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/developers_name"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_below="@id/developers"
+                        android:textSize="16sp"
+                        android:text="Jacob Romero\n\nMario Garcia"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/developers_name"
+                        android:layout_marginTop="20dp"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/qa_engineer"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:text="QA Engineer"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_below="@id/qa_engineer"
+                        android:id="@+id/qa_engineer_name"
+                        android:textSize="16sp"
+                        android:text="Anthony Villacis"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -221,7 +221,7 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
    * to the Profile page, and execute the next page that the user requested.
    * @param position
    */
-  private void selectItem(int position){
+  private void selectItem(int position) {
     Intent intent = new Intent();
     String value = "-1";
     switch (position) {

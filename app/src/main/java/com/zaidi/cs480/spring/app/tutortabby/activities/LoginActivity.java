@@ -339,11 +339,10 @@ public class LoginActivity extends FragmentActivity
     String firstName = ((EditText) findViewById(R.id.firstName)).getText().toString();
     String lastName = ((EditText) findViewById(R.id.lastName)).getText().toString();
     String name = firstName + " " + lastName;
-
     String emailText = ((EditText) findViewById(R.id.emailText)).getText().toString();
     String pass = ((EditText) findViewById(R.id.newPassW)).getText().toString();
     String role = ((Spinner) findViewById(R.id.spinner)).getSelectedItem().toString();
-
+    String subjects = ((Spinner) findViewById(R.id.subjects_content)).getSelectedItem().toString();
 
     DBLoginActivity act = new DBLoginActivity(this);
     String sql;
@@ -351,9 +350,9 @@ public class LoginActivity extends FragmentActivity
 
     if(name.trim().compareTo("") != 0 && pass.trim().compareTo("") != 0 && emailText.trim().compareTo("") != 0) {
       if (role.compareTo("Tutor") == 0) {
-        sql = "INSERT INTO tutor (tutorName, tutorPassword, tutorEmail) values(\"" + name + "\",\"" + pass + "\",\"" + emailText + "\")";
+        sql = "INSERT INTO tutor (tutorName, tutorPassword, tutorEmail, tutorSubjects) values(\"" + name + "\",\"" + pass + "\",\"" + emailText + "\",\"" + subjects + "\")";
       } else {
-        sql = "INSERT INTO student (studentName, studentPassword, studentEmail) values(\"" + name + "\",\"" + pass + "\",\"" + emailText + "\")";
+        sql = "INSERT INTO student (studentName, studentPassword, studentEmail, studentSubjects) values(\"" + name + "\",\"" + pass + "\",\"" + emailText + "\",\"" + subjects + "\")";
       }
     }
     else

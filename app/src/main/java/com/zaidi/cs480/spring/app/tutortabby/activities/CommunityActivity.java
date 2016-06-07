@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +27,11 @@ import com.zaidi.cs480.spring.app.tutortabby.R;
 import com.zaidi.cs480.spring.app.tutortabby.adapters.NavItemAdapter;
 import com.zaidi.cs480.spring.app.tutortabby.items.NavItem;
 import com.zaidi.cs480.spring.app.tutortabby.listItem;
+import com.zaidi.cs480.spring.app.tutortabby.fragments.CommunityObjectFragment;
+import com.zaidi.cs480.spring.app.tutortabby.fragments.NewsObjectFragment;
+import com.zaidi.cs480.spring.app.tutortabby.fragments.SessionsObjectFragment;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -183,7 +189,17 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
     }
     @Override
     public Fragment getItem(int position) {
-      Fragment fragment = new CommunityObjectFragment();
+      Fragment fragment = null;
+      switch (position) {
+        case 0:
+          fragment = new NewsObjectFragment();
+          break;
+        case 1:
+          fragment = new SessionsObjectFragment();
+          break;
+        default:
+          fragment = new CommunityObjectFragment();
+      }
       Bundle args = new Bundle();
       args.putInt(CommunityObjectFragment.ARG_OBJECT, position + 1 );
       fragment.setArguments(args);
@@ -198,21 +214,6 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
     @Override
     public CharSequence getPageTitle(int position) {
       return titles[(position)];
-    }
-  }
-
-  public static class CommunityObjectFragment extends Fragment {
-    public static final String ARG_OBJECT = "object";
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-      View rootView = inflater.inflate(R.layout.fragment_community_object, container, false);
-      Bundle args = getArguments();
-      ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-              Integer.toString(args.getInt(ARG_OBJECT)));
-
-      return rootView;
     }
   }
 

@@ -41,41 +41,42 @@
             android:layout_below="@id/change_password_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <RadioButton
+            <CheckBox
                 android:id="@+id/toggle_music_in_meow"
                 android:hint="Toggle Music in About Us."
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <RadioButton
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_no_animation"
                 android:layout_marginTop="10dp"
+                android:checked="true"
                 android:hint="Toggle animation"/>
 
-            <RadioButton
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:id="@+id/radio_power_saver"
                 android:hint="Run on Power Saver mode"/>
 
-            <RadioButton
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_digest_less"
                 android:layout_marginTop="10dp"
                 android:hint="Toggle less data (This will prevent app from eating up your data service)"/>
 
-            <RadioButton
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:id="@+id/radio_trim_memory_usage"
                 android:hint="Use less memory when in background"/>
 
-            <RadioButton
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_improve_performance"

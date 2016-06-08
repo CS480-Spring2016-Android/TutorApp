@@ -74,7 +74,7 @@ public class SessionsObjectFragment extends Fragment {
 
 
     // Query current sessions with tutor
-    String smnt = "select * (select sessionDate as date, sessionSubject as subject, sessionDuration as duration from sessions where ";
+    String smnt = "select * from (select sessionDate as date, sessionSubject as subject, sessionDuration as duration from sessions where ";
     switch (userType) {
       case "tutor":
         smnt = smnt.concat("tutorID=\'" + id + "\')");

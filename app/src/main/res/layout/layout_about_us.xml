@@ -98,12 +98,22 @@
                         android:layout_marginTop="20dp"
                         android:layout_below="@id/developers"
                         android:textSize="16sp"
-                        android:text="Jacob Romero\n\nMario Garcia"/>
+                        android:text="Jacob Romero"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/other_developer_name"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
                         android:layout_below="@id/developers_name"
+                        android:textSize="16sp"
+                        android:text="Mario Garcia"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/other_developer_name"
                         android:layout_marginTop="20dp"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/qa_engineer"

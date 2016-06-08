@@ -118,7 +118,9 @@
                 android:layout_toRightOf="@id/profileImage"
                 android:id="@+id/subjects_content"
                 android:layout_centerHorizontal="false"
-                android:spinnerMode="dropdown"
+                android:spinnerMode="dialog"
+                android:prompt="@string/subjects_select"
+                android:tag=""
                 android:hint="Subject"
                 android:layout_below="@id/retypePassW"/>
 

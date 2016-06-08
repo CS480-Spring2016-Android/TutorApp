@@ -355,6 +355,7 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
             intent = new Intent(this, CommunityActivity.class);
             break;
           case 4:
+            intent = new Intent(this, AboutUsActivity.class);
             break;
           case 5:
             break;

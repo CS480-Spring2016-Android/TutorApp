@@ -23,6 +23,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/sessions_display"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/open_session_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:textSize="20dp"
+                android:layout_below="@id/sessions_nothing_to_show"
+                android:text="Open one!"/>
         </RelativeLayout>
     </ScrollView>
 

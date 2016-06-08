@@ -42,6 +42,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_search">Search</string>
+    <string name="subjects_select">Select subjects</string>
 
     <string-array name="role_array">
         <item>Tutor</item>
@@ -61,6 +62,7 @@
         <item>Computer Science</item>
         <item>Physics</item>
         <item>Quantum Physics</item>
+        <item>Theoretical Physics</item>
         <item>English</item>
         <item>Foreign Languages</item>
         <item>Biology</item>
@@ -73,5 +75,11 @@
         <item>Hardware Engineering</item>
         <item>Journalism</item>
         <item>International Relations</item>
+        <item>Fashion</item>
+        <item>Sociology</item>
+        <item>Psychology</item>
+        <item>Japanese Culture</item>
+        <item>Game Theory</item>
+        <item>Medical</item>
     </string-array>
 </resources>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,11 +21,15 @@ public class SessionsObjectFragment extends Fragment {
   private ListView sessionsList;
   private ArrayAdapter<listItem> listAdapter;
 
+  private Button openSessionButton;
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_sessions, container, false);
     nothingToShow = (TextView) rootView.findViewById(R.id.sessions_nothing_to_show);
+    openSessionButton = (Button) rootView.findViewById(R.id.open_session_button);
+    openSessionButton.setVisibility(View.GONE);
+    openSessionButton.setEnabled(false);
     nothingToShow.setVisibility(View.GONE);
 
     sessionsList = (ListView) rootView.findViewById(R.id.sessions_display);
@@ -34,6 +39,8 @@ public class SessionsObjectFragment extends Fragment {
 
     if (listAdapter.isEmpty()) {
       nothingToShow.setVisibility(View.VISIBLE);
+      openSessionButton.setVisibility(View.VISIBLE);
+      openSessionButton.setEnabled(true);
     }
 
     return rootView;

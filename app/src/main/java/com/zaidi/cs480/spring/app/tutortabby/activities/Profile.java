@@ -60,6 +60,7 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
   private NavItemAdapter adapter;
 
   private int id;
+  private String userType;
   private static final String URL_LINK = "jdbc:mariadb://db.zer0-one.net/tutorWeb";
 
   @Override
@@ -92,6 +93,7 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
         res = act.get();
 
         if(res.next()) {
+          userType = "tutor";
           name = res.getString("tutorname");
           role = source;
 
@@ -111,6 +113,7 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
         }
       }
       else if(source.equals("student")){
+        userType = "student";
         String query = "select * from student where studentID = " + id;
 
         DBLoginActivity act = new DBLoginActivity(this);
@@ -135,6 +138,7 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
         }
       }
       else{
+        userType = "none";
 //        select t.id, t.name, t.source, count(*) as count from ((select tutorID as id, tutorName as name, 'tutor' as source from tutor where tutorName = "" + username + "\" and tutorPassword = \"" + password + "\") union (select studentID as id, studentName as name, 'student' as source from student where studentName = \"" + username + "\" and studentPassword = \"" + password + "\")) t group by t.name";
         String query = "select * from ((select tutorName as name, tutorEmail as temail, \"Tutor\" as source, tutorsubjects as tsub, tutorDescription as descr, tutorRatePerHour as rate, tutortotalHours as hours, tutorAddress as taddress, null as semail from tutor where tutorName = \"" + user + "\" and tutorPassword = \"" +b.getString("pass") + "\") " +
                 "union " +
@@ -353,6 +357,8 @@ public class Profile extends Activity implements ListView.OnItemClickListener{
             break;
           case 3:
             intent = new Intent(this, CommunityActivity.class);
+            intent.putExtra("uid", id);
+            intent.putExtra("userType", userType);
             break;
           case 4:
             intent = new Intent(this, AboutUsActivity.class);

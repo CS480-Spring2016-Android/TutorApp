@@ -45,39 +45,32 @@
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.Profile"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".Profile"
             android:label="@string/title_activity_profile"/>
-
         <activity
             android:name=".Search"
             android:label="@string/title_activity_search"/>
-
         <activity android:name=".activities.CommunityActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-
-
-
-        <activity android:name=".activities.AboutUsActivity"
+        <activity
+            android:name=".activities.AboutUsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-
         <service android:name=".MusicService">
             <intent-filter>
                 <action android:name="android.intent.action.RESPOND_VIA_MESSAGE"/>
             </intent-filter>
         </service>
     </application>
-
 </manifest>

@@ -1,5 +1,6 @@
 package com.zaidi.cs480.spring.app.tutortabby.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +12,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.zaidi.cs480.spring.app.tutortabby.R;
+import com.zaidi.cs480.spring.app.tutortabby.activities.DBLoginActivity;
 import com.zaidi.cs480.spring.app.tutortabby.listItem;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
 
 /**
  *  Sessions will be placed in this class.
@@ -20,6 +26,9 @@ public class SessionsObjectFragment extends Fragment {
   private TextView nothingToShow;
   private ListView sessionsList;
   private ArrayAdapter<listItem> listAdapter;
+
+  private int id;
+  private String userType;
 
   private Button openSessionButton;
   @Override
@@ -32,8 +41,17 @@ public class SessionsObjectFragment extends Fragment {
     openSessionButton.setEnabled(false);
     nothingToShow.setVisibility(View.GONE);
 
+    Bundle args = getArguments();
+    if (args != null) {
+      id = args.getInt("uid");
+      userType = args.getString("userType");
+    } else {
+      userType = "none";
+      id = Integer.MAX_VALUE;
+    }
+
     sessionsList = (ListView) rootView.findViewById(R.id.sessions_display);
-    listAdapter = new ArrayAdapter<>(this.getActivity(), R.layout.simplerow);
+    listAdapter = getListAdapter();
 
     sessionsList.setAdapter(listAdapter);
 
@@ -44,5 +62,50 @@ public class SessionsObjectFragment extends Fragment {
     }
 
     return rootView;
+  }
+
+  /**
+   * Grabs the query for the number of sessions that user currently has.
+   * @return
+   */
+  private ArrayAdapter<listItem> getListAdapter() {
+    ArrayAdapter<listItem>  listItemArrayAdapter = new ArrayAdapter<>(this.getActivity()
+            , R.layout.simplerow);
+
+
+    // Query current sessions with tutor
+    String smnt = "select * (select sessionDate as date, sessionSubject as subject, sessionDuration as duration from sessions where ";
+    switch (userType) {
+      case "tutor":
+        smnt = smnt.concat("tutorID=\'" + id + "\')");
+        break;
+      case "student":
+        smnt = smnt.concat("studentID=\'" + id + "\')");
+        break;
+      default:
+        smnt = "";
+        break;
+    }
+
+    try {
+      DBLoginActivity act = new DBLoginActivity(this.getActivity());
+      act.execute(smnt);
+
+      ResultSet result = act.get();
+
+      if (result != null) {
+        while (result.next()) {
+          listItemArrayAdapter.add(new listItem(id, "Session date: "
+                  + result.getString("date")
+                  + "\nSession Subject: "
+                  + result.getString("subject")
+                  + "\nSession Duration: "
+                  + result.getString("duration") + "\n\n"));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return listItemArrayAdapter;
   }
 }

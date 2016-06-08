@@ -25,7 +25,7 @@ public class DBLoginActivity extends AsyncTask<String, Void, ResultSet> {
 
   private String lastErrorString;
 
-  DBLoginActivity(Context context) {
+  public DBLoginActivity(Context context) {
     Success = false;
     this.context = context;
     lastErrorString = "NONE";

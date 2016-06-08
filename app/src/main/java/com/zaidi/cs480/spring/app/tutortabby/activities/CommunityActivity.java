@@ -59,10 +59,18 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
   CommunityPagerAdapter mPageAdapter;
   ViewPager mViewPager;
 
+  private int id;
+  private String userType;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_community);
+
+    savedInstanceState = getIntent().getExtras();
+    id = savedInstanceState.getInt("uid");
+    // Should be checked for null!!
+    userType = savedInstanceState.getString("userType");
 
     mTitle = mDrawerTitle = getTitle();
 
@@ -189,18 +197,20 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
     }
     @Override
     public Fragment getItem(int position) {
-      Fragment fragment = null;
+      Fragment fragment;
+      Bundle args = new Bundle();
       switch (position) {
         case 0:
           fragment = new NewsObjectFragment();
           break;
         case 1:
+          args.putInt("uid", id);
+          args.putString("userType", userType);
           fragment = new SessionsObjectFragment();
           break;
         default:
           fragment = new CommunityObjectFragment();
       }
-      Bundle args = new Bundle();
       args.putInt(CommunityObjectFragment.ARG_OBJECT, position + 1 );
       fragment.setArguments(args);
       return fragment;

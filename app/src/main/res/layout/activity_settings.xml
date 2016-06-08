@@ -5,7 +5,97 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/settings_scroll">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/change_name_button"
+            android:text="Change Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_subjects_button"
+            android:text="Change Subject"
+            android:layout_below="@id/change_name_button"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_password_button"
+            android:layout_marginTop="10dp"
+            android:text="Change Password"
+            android:layout_below="@id/change_subjects_button"/>
+
+        <RadioGroup
+            android:layout_marginTop="30dp"
+            android:id="@+id/radio_settings"
+            android:layout_below="@id/change_password_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/toggle_music_in_meow"
+                android:hint="Toggle Music in About Us."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_no_animation"
+                android:layout_marginTop="10dp"
+                android:hint="Toggle animation"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radio_power_saver"
+                android:hint="Run on Power Saver mode"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_digest_less"
+                android:layout_marginTop="10dp"
+                android:hint="Toggle less data (This will prevent app from eating up your data service)"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:id="@+id/radio_trim_memory_usage"
+                android:hint="Use less memory when in background"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radio_improve_performance"
+                android:layout_marginTop="10dp"
+                android:hint="Toggle Quality (Requires more memory)"/>
+        </RadioGroup>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_below="@id/radio_settings"
+            android:layout_marginTop="50dp"
+            android:text="Log off"
+            android:id="@+id/log_off_button"/>
+
+    </RelativeLayout>
+</ScrollView>
 
     <!-- The drawer is given a fixed width in dp and extends the full height of
      the container. -->

@@ -35,19 +35,53 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+/**
+ * CommunityActivity is an Activity holding three fragments, one to store and display news, the other
+ * to display current sessions for each tutor, as well as open lobbies for which the user may be able
+ * to enter and chat with friends and tutors alike.
+ */
 public class CommunityActivity extends FragmentActivity implements ListView.OnItemClickListener {
+  /**
+   * Layout of the drawer. Drawn on the outside of the screen. It is then displayed when
+   * user attempts to swipe from the left edge of the screen.
+   */
   private DrawerLayout mDrawerLayout;
+  /**
+   * List display of all availabled elements that the user can have access to. User may be able to
+   * click on any of these elements within the list.
+   */
   private ListView mDrawerList;
+  /**
+   * Toggle button on top, within the action bar.
+   */
   private ActionBarDrawerToggle mDrawerToggle;
+  /**
+   * Title of the drawer layout, otherwise known as the current Activity Title.
+   */
   private CharSequence mDrawerTitle;
-
+  /**
+   * Navigational menu titles within the DrawerList.
+   */
   private String[] navMenuTitles;
+  /**
+   * Navigational icons corresponding to the menu titles within DrawerList.
+   */
   private TypedArray navMenuIcons;
-
+  /**
+   * List of All item containers within the DrawerList.
+   */
   private ArrayList<NavItem> navDrawerItems;
+  /**
+   * Adapter for the DrawerList.
+   */
   private NavItemAdapter adapter;
-
+  /**
+   * List View for the main list?
+   */
   private ListView mainListView;
+  /**
+   * This is never used...
+   */
   private ArrayAdapter<listItem> listAdapter;
 
   /**
@@ -55,13 +89,28 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
    */
   private CharSequence mTitle;
 
-
+  /**
+   * Page adapter for fragments
+   */
   CommunityPagerAdapter mPageAdapter;
+  /**
+   * For viewing the Pager within the layout.
+   */
   ViewPager mViewPager;
-
+  /**
+   * Logged in user id.
+   */
   private int id;
+  /**
+   * logged in user type. { tutor, student } struct.
+   */
   private String userType;
 
+  /**
+   * Sets up the drawerLayout, list, and adapter. Pager for each fragment is also constructed after
+   * as well as information from LoginActivity.
+   * @param savedInstanceState
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -120,18 +169,34 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
     mViewPager.setAdapter(mPageAdapter);
   }
 
+  /**
+   * Open the Options menu, Allows dynamic navigation to the settings menu.
+   * @param menu
+   * @return
+   */
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main_menu, menu);
     return true;
   }
 
+  /**
+   * Buffer to switch to a different activity.
+   * @param parent
+   * @param view
+   * @param position
+   * @param id
+   */
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     selectItem(position);
   }
 
-
+  /**
+   * Register the selected item within the menu, NOT the drawerList.
+   * @param item
+   * @return
+   */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // toggle nav drawer on selecting action bar app icon/title
@@ -159,6 +224,10 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
     return super.onPrepareOptionsMenu(menu);
   }
 
+  /**
+   * Set the title within the actionbar.
+   * @param title
+   */
   @Override
   public void setTitle(CharSequence title) {
     mTitle = title;
@@ -169,7 +238,6 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
    * When using the ActionBarDrawerToggle, you must call it during
    * onPostCreate() and onConfigurationChanged()...
    */
-
   @Override
   protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
@@ -177,6 +245,10 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
     mDrawerToggle.syncState();
   }
 
+  /**
+   * Configure the user input, when user swipes across screen.
+   * @param newConfig
+   */
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
@@ -184,9 +256,19 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
     mDrawerToggle.onConfigurationChanged(newConfig);
   }
 
+  /**
+   * PagerAdapter that holds each and every fragment within the tabs that are provided to the user.
+   */
   public class CommunityPagerAdapter extends FragmentStatePagerAdapter {
+    /**
+     * Titles of each tab.
+     */
     private CharSequence[] titles;
 
+    /**
+     * Constructor that will initialize the charSequence.
+     * @param fm
+     */
     public CommunityPagerAdapter(FragmentManager fm) {
       super(fm);
 
@@ -195,6 +277,12 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
       titles[1] = "Sessions";
       titles[2] = "Lobbies";
     }
+
+    /**
+     * Grab our item, in this case, the fragments within.
+     * @param position
+     * @return
+     */
     @Override
     public Fragment getItem(int position) {
       Fragment fragment;
@@ -216,11 +304,20 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
       return fragment;
     }
 
+    /**
+     * Grab the number of fragments in tab.
+     * @return
+     */
     @Override
     public int getCount() {
       return 3;
     }
 
+    /**
+     * Get the title of the page.
+     * @param position
+     * @return
+     */
     @Override
     public CharSequence getPageTitle(int position) {
       return titles[(position)];

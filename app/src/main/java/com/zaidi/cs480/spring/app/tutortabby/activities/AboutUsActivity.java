@@ -9,10 +9,20 @@ import com.zaidi.cs480.spring.app.tutortabby.R;
 
 
 /**
+ * About Us Activity intended to upload the information about this project, as well as the names of
+ * each contributor.
  * Created by MAGarcia on 6/7/2016.
  */
 public class AboutUsActivity extends Activity {
+  /**
+   * Provided that the intent is constructed for the Music Service.
+   */
   private Intent intent;
+
+  /**
+   * Creates the Activity, with Music Service enabled automatically.
+   * @param savedInstanceState bundled data is null.
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -23,6 +33,9 @@ public class AboutUsActivity extends Activity {
     startService(intent);
   }
 
+  /**
+   * Destroys the Activity, along with the Music Service.
+   */
   @Override
   public void onDestroy() {
     super.onDestroy();

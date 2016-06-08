@@ -47,6 +47,7 @@
         </activity>
         <activity
             android:name=".activities.Profile"
+            android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".Profile"
@@ -54,13 +55,15 @@
         <activity
             android:name=".Search"
             android:label="@string/title_activity_search"/>
-        <activity android:name=".activities.CommunityActivity">
+        <activity android:name=".activities.CommunityActivity"
+            android:label="@string/title_activity_community">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.AboutUsActivity"
+            android:label="@string/title_activity_about_us"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -73,7 +76,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.SettingsActivity">
+        <activity android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>

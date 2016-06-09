@@ -1,6 +1,7 @@
 package com.zaidi.cs480.spring.app.tutortabby.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.zaidi.cs480.spring.app.tutortabby.R;
@@ -84,7 +86,23 @@ public class SettingsActivity extends Activity implements ListView.OnItemClickLi
 
     if (savedInstanceState == null) {
     }
+
+    Button logout = (Button) findViewById(R.id.log_off_button);
+    logout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v){
+        logout();
+      }
+    });
   }
+
+  private void logout(){
+    Intent intent = new Intent(this, LoginActivity.class);
+    finish();
+    startActivity(intent);
+  }
+
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main_menu, menu);

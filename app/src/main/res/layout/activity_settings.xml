@@ -91,7 +91,7 @@
             android:layout_below="@id/radio_settings"
             android:layout_marginTop="50dp"
             android:text="Log off"
-            android:id="@+id/log_off_button"/>
+            android:id="@+id/log_off_button" />
 
     </RelativeLayout>
 </ScrollView>

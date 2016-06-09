@@ -29,13 +29,13 @@
 
                     <TextView
                         android:id="@+id/description_project"
-                        android:layout_marginTop="30dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@id/about_us_text"
                         android:textSize="15sp"
-                        android:text="Tutor Tabby is a tutoring app, developed for the Spring quarter of CS480."/>
+                        android:text="Tutor Tabby is a tutoring app, developed for the Spring quarter of CS480."
+                        android:layout_below="@+id/about_us_text"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="15dp" />
 
                     <TextView
                         android:layout_width="wrap_content"

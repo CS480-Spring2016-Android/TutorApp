@@ -22,6 +22,7 @@ import com.zaidi.cs480.spring.app.tutortabby.listItem;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -98,7 +99,7 @@ public class SessionsObjectFragment extends Fragment {
 
 
     // Query current sessions with tutor
-    String smnt = "select * from (select sessionDate as date, sessionSubject as subject, sessionDuration as duration from sessions where ";
+    String smnt = "select * from (select sessionDate as date, sessionSubject as subject, sessionDuration as duration, tutorID as tutor, studentID as student from sessions where ";
     switch (userType) {
       case "tutor":
         smnt = smnt.concat("tutorID=" + id + ") as t");
@@ -116,15 +117,45 @@ public class SessionsObjectFragment extends Fragment {
       act.execute("exe", smnt);
 
       ResultSet result = act.get();
+      ArrayList<CharSequence> ids = new ArrayList<>();
 
       if (result != null) {
         while (result.next()) {
-          listItemArrayAdapter.add(new listItem(id, "Session date: "
-                  + result.getString("date")
-                  + "\nSession Subject: "
-                  + result.getString("subject")
-                  + "\nSession Duration: "
-                  + result.getString("duration") + "\n\n"));
+          String query = "";
+          if (userType.equals("student")) {
+            ids.add(result.getString("tutor"));
+            query = "select * from (select tutorName as tutor from tutor where tutorID=" + result.getString("tutor") + ") as t";
+          } else {
+            ids.add(result.getString("student"));
+            query = "select * from (select studentName as student from student where studentID=" + result.getString("student") + ") as t";
+          }
+
+          DBLoginActivity act2 = new DBLoginActivity(this.getActivity());
+          act2.execute("exe", query);
+
+          ResultSet name = act2.get();
+          String userName = "";
+          while(name.next()) {
+            if (userType.equals("student")) {
+              userName = name.getString("tutor");
+              listItemArrayAdapter.add(new listItem(id, "Tutor name: " + userName
+                      + "\nSession date: "
+                      + result.getString("date")
+                      + "\nSession Subject: "
+                      + result.getString("subject")
+                      + "\nSession Duration: "
+                      + result.getString("duration") + "\n\n"));
+            } else {
+              userName = name.getString("student");
+              listItemArrayAdapter.add(new listItem(id, "Student name: " + userName
+                      + "\nSession date: "
+                      + result.getString("date")
+                      + "\nSession Subject: "
+                      + result.getString("subject")
+                      + "\nSession Duration: "
+                      + result.getString("duration") + "\n\n"));
+            }
+          }
         }
       }
     } catch (Exception e) {

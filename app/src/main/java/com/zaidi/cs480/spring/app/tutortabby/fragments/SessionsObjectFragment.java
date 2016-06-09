@@ -1,8 +1,13 @@
 package com.zaidi.cs480.spring.app.tutortabby.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +22,14 @@ import com.zaidi.cs480.spring.app.tutortabby.listItem;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
  *  Sessions will be placed in this class.
  */
 public class SessionsObjectFragment extends Fragment {
+  private OnSessionsObjectFragmentListener callback;
   private TextView nothingToShow;
   private ListView sessionsList;
   private ArrayAdapter<listItem> listAdapter;
@@ -40,6 +47,7 @@ public class SessionsObjectFragment extends Fragment {
     openSessionButton.setVisibility(View.GONE);
     openSessionButton.setEnabled(false);
     nothingToShow.setVisibility(View.GONE);
+
 
     Bundle args = getArguments();
     if (args != null) {
@@ -64,6 +72,22 @@ public class SessionsObjectFragment extends Fragment {
     return rootView;
   }
 
+  @Override
+  public void onAttach(Context activity) {
+    super.onAttach(activity);
+    try {
+      callback = (OnSessionsObjectFragmentListener) activity;
+      openSessionButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          callback.onSessionsObjectFragmentInteraction();
+        }
+      });
+    } catch (Exception e) {
+
+    }
+  }
+
   /**
    * Grabs the query for the number of sessions that user currently has.
    * @return
@@ -77,10 +101,10 @@ public class SessionsObjectFragment extends Fragment {
     String smnt = "select * from (select sessionDate as date, sessionSubject as subject, sessionDuration as duration from sessions where ";
     switch (userType) {
       case "tutor":
-        smnt = smnt.concat("tutorID=\'" + id + "\')");
+        smnt = smnt.concat("tutorID=" + id + ") as t");
         break;
       case "student":
-        smnt = smnt.concat("studentID=\'" + id + "\')");
+        smnt = smnt.concat("studentID=" + id + ") as t");
         break;
       default:
         smnt = "";
@@ -89,7 +113,7 @@ public class SessionsObjectFragment extends Fragment {
 
     try {
       DBLoginActivity act = new DBLoginActivity(this.getActivity());
-      act.execute(smnt);
+      act.execute("exe", smnt);
 
       ResultSet result = act.get();
 
@@ -108,4 +132,9 @@ public class SessionsObjectFragment extends Fragment {
     }
     return listItemArrayAdapter;
   }
+
+  public interface OnSessionsObjectFragmentListener {
+    void onSessionsObjectFragmentInteraction();
+  }
+
 }

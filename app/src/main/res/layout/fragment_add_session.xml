@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:id="@+id/open_session_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/open_session_scroll">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tutor_id_number"
+                android:hint="Tutor ID"
+                android:inputType="number"/>
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_picker_text"
+                android:inputType="datetime"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:layout_below="@id/tutor_id_number"/>
+
+            <Spinner
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:id="@+id/tutor_open_subjects_spinner"
+                android:layout_below="@id/date_picker_text">
+            </Spinner>
+
+            <DatePicker
+                android:layout_marginTop="12dp"
+                android:id="@+id/date_picker_open_sessions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tutor_open_subjects_spinner"
+                android:layout_centerHorizontal="true">
+            </DatePicker>
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

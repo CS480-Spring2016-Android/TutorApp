@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.zaidi.cs480.spring.app.tutortabby.R;
 import com.zaidi.cs480.spring.app.tutortabby.adapters.NavItemAdapter;
+import com.zaidi.cs480.spring.app.tutortabby.fragments.OpenSessionsFragment;
 import com.zaidi.cs480.spring.app.tutortabby.items.NavItem;
 import com.zaidi.cs480.spring.app.tutortabby.listItem;
 import com.zaidi.cs480.spring.app.tutortabby.fragments.CommunityObjectFragment;
@@ -40,7 +45,8 @@ import java.util.ArrayList;
  * to display current sessions for each tutor, as well as open lobbies for which the user may be able
  * to enter and chat with friends and tutors alike.
  */
-public class CommunityActivity extends FragmentActivity implements ListView.OnItemClickListener {
+public class CommunityActivity extends FragmentActivity implements ListView.OnItemClickListener,
+                                          SessionsObjectFragment.OnSessionsObjectFragmentListener {
   /**
    * Layout of the drawer. Drawn on the outside of the screen. It is then displayed when
    * user attempts to swipe from the left edge of the screen.
@@ -105,6 +111,8 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
    * logged in user type. { tutor, student } struct.
    */
   private String userType;
+
+  private Button openSessionButton;
 
   /**
    * Sets up the drawerLayout, list, and adapter. Pager for each fragment is also constructed after
@@ -255,6 +263,20 @@ public class CommunityActivity extends FragmentActivity implements ListView.OnIt
     // Pass any configuration change to the drawer toggls
     mDrawerToggle.onConfigurationChanged(newConfig);
   }
+
+  @Override
+  public void onSessionsObjectFragmentInteraction() {
+    Fragment frag = new OpenSessionsFragment();
+    FragmentTransaction fragTransit = getSupportFragmentManager().beginTransaction();
+    fragTransit.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+            android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+    fragTransit.replace(R.id.community_layout, frag);
+    fragTransit.addToBackStack(null);
+    openSessionButton.setEnabled(false);
+    openSessionButton.setVisibility(View.GONE);
+    fragTransit.commit();
+  }
+
 
   /**
    * PagerAdapter that holds each and every fragment within the tabs that are provided to the user.

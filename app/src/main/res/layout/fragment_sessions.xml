@@ -8,8 +8,12 @@
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="450dp">
 
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="520dp"
+                android:id="@+id/sessions_display"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -18,11 +22,6 @@
                 android:textSize="20dp"
                 android:text="No current sessions!"
                 android:id="@+id/sessions_nothing_to_show"/>
-
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sessions_display"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -33,7 +32,10 @@
                 android:textSize="20dp"
                 android:layout_below="@id/sessions_nothing_to_show"
                 android:text="Open one!"/>
+
         </RelativeLayout>
     </ScrollView>
+
+
 
 </RelativeLayout>
